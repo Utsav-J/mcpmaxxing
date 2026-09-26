@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "tool_name": "get_book_details",
+  "category": "execution",
+  "body": {
+    "purpose": "Retrieve one exact book's identity and lifetime fixture totals.",
+    "when_to_use": [
+      "Retrieve one exact book's identity and lifetime fixture totals."
+    ],
+    "when_not_to_use": [
+      "Do not guess an ID from a title. Resolve via get_books first; use receipt tool for a ledger."
+    ],
+    "parameter_rules": [
+      {
+        "parameter": "book_id",
+        "rules": [
+          "Use an existing local ID such as B001; unknown IDs fail."
+        ],
+        "examples": [
+          "B001"
+        ]
+      }
+    ],
+    "preconditions": [
+      "Read bookstore://reference for vendor IDs and fixed clock.",
+      "Use ISO paired dates, known IDs, and no unsupported parameters."
+    ]
+  }
+}

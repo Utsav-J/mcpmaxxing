@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "tool_name": "get_stock_availability",
+  "category": "presentation",
+  "body": {
+    "default_format": "scalar",
+    "format_rules": [
+      "single: book ID and value with units",
+      "multiple: stock table with text status labels"
+    ],
+    "required_facts": [
+      "Units",
+      "2026-09-26 snapshot",
+      "Low/out-of-stock text labels",
+      "Page completeness"
+    ],
+    "tone": "Concise, factual, and evidence-limited.",
+    "citation_rules": [
+      "Use returned source_uri; hyperlink only if host supports it.",
+      "Otherwise use a labeled plain reference. Never invent HTTP URLs."
+    ],
+    "fallback_format": "text",
+    "user_format_precedence": true
+  }
+}

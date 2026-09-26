@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "tool_name": "get_book_details",
+  "category": "domain",
+  "body": {
+    "terms": {
+      "book_id": "Local catalog identity, not ISBN.",
+      "lifetime totals": "Totals over fixture coverage only."
+    },
+    "business_rules": [
+      "Detail totals obey stock = received minus sold.",
+      "The bounded detail omits full receipt and sales history."
+    ],
+    "examples": [
+      "B001 has 20 received, 3 sold, and 17 remaining units in this fixture."
+    ],
+    "limitations": [
+      "Local dummy fixture, 2026-03-01 through 2026-09-26, Asia/Kolkata."
+    ]
+  }
+}

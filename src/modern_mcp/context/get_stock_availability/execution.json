@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "tool_name": "get_stock_availability",
+  "category": "execution",
+  "body": {
+    "purpose": "Read current snapshot availability for catalog books.",
+    "when_to_use": [
+      "Read current snapshot availability for catalog books."
+    ],
+    "when_not_to_use": [
+      "Do not answer historical stock questions using this snapshot; no historical parameter exists."
+    ],
+    "parameter_rules": [
+      {
+        "parameter": "stock_status",
+        "rules": [
+          "all, out_of_stock, low_stock, in_stock are exact enum values."
+        ],
+        "examples": [
+          "low_stock"
+        ]
+      },
+      {
+        "parameter": "book_ids",
+        "rules": [
+          "Supply distinct known IDs or null for all."
+        ],
+        "examples": [
+          "[\"B003\"]"
+        ]
+      }
+    ],
+    "preconditions": [
+      "Read bookstore://reference for vendor IDs and fixed clock.",
+      "Use ISO paired dates, known IDs, and no unsupported parameters."
+    ]
+  }
+}

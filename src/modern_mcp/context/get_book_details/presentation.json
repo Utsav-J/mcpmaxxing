@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "tool_name": "get_book_details",
+  "category": "presentation",
+  "body": {
+    "default_format": "detail",
+    "format_rules": [
+      "single: titled key/value facts",
+      "source: link book resource if host can open it; otherwise labeled reference"
+    ],
+    "required_facts": [
+      "Book ID",
+      "Snapshot date for stock",
+      "Fixture scope for totals"
+    ],
+    "tone": "Concise, factual, and evidence-limited.",
+    "citation_rules": [
+      "Use returned source_uri; hyperlink only if host supports it.",
+      "Otherwise use a labeled plain reference. Never invent HTTP URLs."
+    ],
+    "fallback_format": "text",
+    "user_format_precedence": true
+  }
+}

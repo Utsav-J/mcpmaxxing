@@ -1,0 +1,44 @@
+[project]
+name = "modern-mcp"
+version = "0.1.0"
+description = "Read-only bookstore MCP with versioned, dynamically loaded tool context"
+readme = "README.md"
+authors = [
+    { name = "UtsavJ", email = "utsavjaiswal2004@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "jsonschema>=4.25,<5",
+    "mcp==2.2.0",
+    "pydantic>=2.12,<3",
+]
+
+[project.scripts]
+modern-mcp = "modern_mcp:main"
+
+[project.optional-dependencies]
+examples = [
+    "langgraph==1.2.12",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.10,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    "ruff>=0.16.9",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "strict"
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py314"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

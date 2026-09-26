@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "tool_name": "get_books",
+  "category": "execution",
+  "body": {
+    "purpose": "Find distinct catalog books, including books matched through vendor/date receipt filters.",
+    "when_to_use": [
+      "Find distinct catalog books, including books matched through vendor/date receipt filters."
+    ],
+    "when_not_to_use": [
+      "Use list_stock_receipts for individual arrivals; get_stock_availability for remaining units."
+    ],
+    "parameter_rules": [
+      {
+        "parameter": "vendor_ids",
+        "rules": [
+          "OR within IDs; AND with genre and receipt window.",
+          "Vendor and date must match the SAME receipt row."
+        ],
+        "examples": [
+          "[\"VENDOR-A\",\"VENDOR-B\"]"
+        ]
+      },
+      {
+        "parameter": "received_from/received_before",
+        "rules": [
+          "Translate last month using the reference clock, not today's clock.",
+          "Supply both ISO bounds or neither."
+        ],
+        "examples": [
+          "2026-08-01 inclusive, 2026-09-01 exclusive"
+        ]
+      }
+    ],
+    "preconditions": [
+      "Read bookstore://reference for vendor IDs and fixed clock.",
+      "Use ISO paired dates, known IDs, and no unsupported parameters."
+    ]
+  }
+}

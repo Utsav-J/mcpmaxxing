@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "tool_name": "get_sales_trends",
+  "category": "presentation",
+  "body": {
+    "default_format": "chart",
+    "format_rules": [
+      "series and chart-capable host: date/unit chart",
+      "chart-incapable host: chronological table",
+      "one point: single labeled value"
+    ],
+    "required_facts": [
+      "Axes with date and sold-unit labels",
+      "Period",
+      "Source",
+      "Zero buckets"
+    ],
+    "tone": "Concise, factual, and evidence-limited.",
+    "citation_rules": [
+      "Use returned source_uri; hyperlink only if host supports it.",
+      "Otherwise use a labeled plain reference. Never invent HTTP URLs."
+    ],
+    "fallback_format": "text",
+    "user_format_precedence": true
+  }
+}

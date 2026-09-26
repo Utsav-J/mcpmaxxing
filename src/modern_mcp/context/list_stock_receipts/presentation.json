@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "tool_name": "list_stock_receipts",
+  "category": "presentation",
+  "body": {
+    "default_format": "table",
+    "format_rules": [
+      "chronological: receipt/date/vendor/book/quantity rows",
+      "source: link only when host supports the returned resource URI"
+    ],
+    "required_facts": [
+      "Inclusive/exclusive period",
+      "Full-match totals versus page rows",
+      "Pagination notice"
+    ],
+    "tone": "Concise, factual, and evidence-limited.",
+    "citation_rules": [
+      "Use returned source_uri; hyperlink only if host supports it.",
+      "Otherwise use a labeled plain reference. Never invent HTTP URLs."
+    ],
+    "fallback_format": "text",
+    "user_format_precedence": true
+  }
+}

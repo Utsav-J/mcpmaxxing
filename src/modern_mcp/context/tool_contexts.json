@@ -1,0 +1,219 @@
+{
+  "schema_version": 1,
+  "tools": {
+    "get_books": {
+      "retrieval": {
+        "summary": "List catalog books, optionally filtered by genre and stock receipts from vendors during a date window.",
+        "keywords": [
+          "books",
+          "catalog",
+          "list",
+          "genre",
+          "imported",
+          "received",
+          "vendor",
+          "titles",
+          "find",
+          "browse"
+        ],
+        "example_queries": [
+          "Show books imported last month from vendor A",
+          "List fantasy books in the catalog"
+        ]
+      },
+      "execution_instructions": {
+        "file": "get_books/execution.json"
+      },
+      "domain_knowledge": {
+        "file": "get_books/domain.json"
+      },
+      "presentation_policy": {
+        "file": "get_books/presentation.json"
+      }
+    },
+    "get_book_details": {
+      "retrieval": {
+        "summary": "Get catalog facts and lifetime fixture stock totals for one exact book ID.",
+        "keywords": [
+          "book",
+          "details",
+          "detail",
+          "everything",
+          "information",
+          "B001",
+          "author",
+          "title",
+          "about",
+          "identity"
+        ],
+        "example_queries": [
+          "Tell me everything about book B001",
+          "What is B001"
+        ]
+      },
+      "execution_instructions": {
+        "file": "get_book_details/execution.json"
+      },
+      "domain_knowledge": {
+        "file": "get_book_details/domain.json"
+      },
+      "presentation_policy": {
+        "file": "get_book_details/presentation.json"
+      }
+    },
+    "list_stock_receipts": {
+      "retrieval": {
+        "summary": "List dated vendor stock-receipt rows and received quantities, optionally filtered by books or genre.",
+        "keywords": [
+          "receipts",
+          "receipt",
+          "arrivals",
+          "arrived",
+          "deliveries",
+          "delivery",
+          "ledger",
+          "when",
+          "history",
+          "quantity",
+          "import",
+          "dated"
+        ],
+        "example_queries": [
+          "When did B001 arrive",
+          "List dated vendor receipt quantities"
+        ]
+      },
+      "execution_instructions": {
+        "file": "list_stock_receipts/execution.json"
+      },
+      "domain_knowledge": {
+        "file": "list_stock_receipts/domain.json"
+      },
+      "presentation_policy": {
+        "file": "list_stock_receipts/presentation.json"
+      }
+    },
+    "get_stock_availability": {
+      "retrieval": {
+        "summary": "Show available stock units at the fixture's current snapshot, optionally restricted to books, genre, or stock status.",
+        "keywords": [
+          "stock",
+          "available",
+          "availability",
+          "copies",
+          "remaining",
+          "on",
+          "hand",
+          "inventory",
+          "low",
+          "out",
+          "units"
+        ],
+        "example_queries": [
+          "How many copies are available",
+          "Show low stock inventory"
+        ]
+      },
+      "execution_instructions": {
+        "file": "get_stock_availability/execution.json"
+      },
+      "domain_knowledge": {
+        "file": "get_stock_availability/domain.json"
+      },
+      "presentation_policy": {
+        "file": "get_stock_availability/presentation.json"
+      }
+    },
+    "get_vendor_summary": {
+      "retrieval": {
+        "summary": "Summarize receipt rows, unique books, and units supplied by one vendor during a receipt-date window.",
+        "keywords": [
+          "vendor",
+          "supplier",
+          "summary",
+          "totals",
+          "total",
+          "supplied",
+          "supply",
+          "one",
+          "volume",
+          "breakdown"
+        ],
+        "example_queries": [
+          "Vendor B supply totals",
+          "Summarize one supplier's delivered units"
+        ]
+      },
+      "execution_instructions": {
+        "file": "get_vendor_summary/execution.json"
+      },
+      "domain_knowledge": {
+        "file": "get_vendor_summary/domain.json"
+      },
+      "presentation_policy": {
+        "file": "get_vendor_summary/presentation.json"
+      }
+    },
+    "get_sales_trends": {
+      "retrieval": {
+        "summary": "Summarize sold book units by calendar interval over a sale-date window, optionally filtered by genre.",
+        "keywords": [
+          "sales",
+          "sale",
+          "sold",
+          "trends",
+          "trend",
+          "monthly",
+          "weekly",
+          "daily",
+          "chart",
+          "time",
+          "series"
+        ],
+        "example_queries": [
+          "Monthly science book sales",
+          "Chart weekly sold units"
+        ]
+      },
+      "execution_instructions": {
+        "file": "get_sales_trends/execution.json"
+      },
+      "domain_knowledge": {
+        "file": "get_sales_trends/domain.json"
+      },
+      "presentation_policy": {
+        "file": "get_sales_trends/presentation.json"
+      }
+    },
+    "compare_vendors": {
+      "retrieval": {
+        "summary": "Compare receipt volume for two to four vendors over the same receipt-date window.",
+        "keywords": [
+          "compare",
+          "comparison",
+          "versus",
+          "vs",
+          "vendors",
+          "suppliers",
+          "ranking",
+          "side",
+          "by",
+          "difference"
+        ],
+        "example_queries": [
+          "Compare vendor A and vendor C",
+          "Suppliers side by side by delivered volume"
+        ]
+      },
+      "execution_instructions": {
+        "file": "compare_vendors/execution.json"
+      },
+      "domain_knowledge": {
+        "file": "compare_vendors/domain.json"
+      },
+      "presentation_policy": {
+        "file": "compare_vendors/presentation.json"
+      }
+    }
+  }
+}

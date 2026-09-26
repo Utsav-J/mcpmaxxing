@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "tool_name": "get_sales_trends",
+  "category": "execution",
+  "body": {
+    "purpose": "Read sold units grouped by sale date and calendar interval.",
+    "when_to_use": [
+      "Read sold units grouped by sale date and calendar interval."
+    ],
+    "when_not_to_use": [
+      "Do not infer sales from imports; revenue, profit, forecast, and vendor-attributed sales are unsupported."
+    ],
+    "parameter_rules": [
+      {
+        "parameter": "interval",
+        "rules": [
+          "day, week, month only; weeks start Monday; edge buckets are clipped."
+        ],
+        "examples": [
+          "month"
+        ]
+      },
+      {
+        "parameter": "sold_from/sold_before",
+        "rules": [
+          "These are SALE date bounds, both provided or neither."
+        ],
+        "examples": [
+          "2026-08-01 to 2026-09-01"
+        ]
+      }
+    ],
+    "preconditions": [
+      "Read bookstore://reference for vendor IDs and fixed clock.",
+      "Use ISO paired dates, known IDs, and no unsupported parameters."
+    ]
+  }
+}

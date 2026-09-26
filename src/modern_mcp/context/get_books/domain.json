@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "tool_name": "get_books",
+  "category": "domain",
+  "body": {
+    "terms": {
+      "catalog book": "A distinct local book, not a delivery row.",
+      "matched_received_units": "Units summed from receipt rows matching ALL filters, not remaining stock."
+    },
+    "business_rules": [
+      "Repeated deliveries do not duplicate catalog results.",
+      "With no receipt filters, include unsupplied catalog books."
+    ],
+    "examples": [
+      "B001 arrived from A in July and September and B in August; an August A query must not return it."
+    ],
+    "limitations": [
+      "Local dummy fixture, 2026-03-01 through 2026-09-26, Asia/Kolkata."
+    ]
+  }
+}

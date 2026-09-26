@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "tool_name": "get_vendor_summary",
+  "category": "execution",
+  "body": {
+    "purpose": "Aggregate supply volume for one known vendor over a common receipt window.",
+    "when_to_use": [
+      "Aggregate supply volume for one known vendor over a common receipt window."
+    ],
+    "when_not_to_use": [
+      "Use compare_vendors for two or more vendors; this does not measure vendor quality."
+    ],
+    "parameter_rules": [
+      {
+        "parameter": "vendor_id",
+        "rules": [
+          "One canonical ID from bookstore://reference."
+        ],
+        "examples": [
+          "VENDOR-B"
+        ]
+      }
+    ],
+    "preconditions": [
+      "Read bookstore://reference for vendor IDs and fixed clock.",
+      "Use ISO paired dates, known IDs, and no unsupported parameters."
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "tool_name": "list_stock_receipts",
+  "category": "domain",
+  "body": {
+    "terms": {
+      "receipt row": "One book arriving from one vendor with a date and positive quantity.",
+      "receipt_count": "Count of matched rows, not units or shipment invoices."
+    },
+    "business_rules": [
+      "Received units, unique books, and receipt count are different measures.",
+      "Full-match totals include every page."
+    ],
+    "examples": [
+      "Three B001 receipt events deliver 20 units but represent one unique book."
+    ],
+    "limitations": [
+      "Local dummy fixture, 2026-03-01 through 2026-09-26, Asia/Kolkata."
+    ]
+  }
+}

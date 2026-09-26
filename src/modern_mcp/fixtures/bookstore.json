@@ -1,0 +1,3922 @@
+{
+  "manifest": {
+    "dataset_id": "bookstore-demo-v1",
+    "revision": "1",
+    "sha256": "1e1c246e0ae2e58b566ae9c8339c5abd2c9916151d7be53a390bf0d88a9148a1",
+    "coverage_start": "2026-03-01",
+    "as_of_date": "2026-09-26",
+    "timezone": "Asia/Kolkata"
+  },
+  "vendors": {
+    "VENDOR-A": "Vendor A",
+    "VENDOR-B": "Vendor B",
+    "VENDOR-C": "Vendor C",
+    "VENDOR-D": "Vendor D"
+  },
+  "books": [
+    {
+      "book_id": "B001",
+      "title": "Fiction Book 001",
+      "author": "Author 01",
+      "genre": "fiction"
+    },
+    {
+      "book_id": "B002",
+      "title": "Science-Fiction Book 002",
+      "author": "Author 02",
+      "genre": "science-fiction"
+    },
+    {
+      "book_id": "B003",
+      "title": "Fantasy Book 003",
+      "author": "Author 03",
+      "genre": "fantasy"
+    },
+    {
+      "book_id": "B004",
+      "title": "History Book 004",
+      "author": "Author 04",
+      "genre": "history"
+    },
+    {
+      "book_id": "B005",
+      "title": "Science Book 005",
+      "author": "Author 05",
+      "genre": "science"
+    },
+    {
+      "book_id": "B006",
+      "title": "Business Book 006",
+      "author": "Author 06",
+      "genre": "business"
+    },
+    {
+      "book_id": "B007",
+      "title": "Fiction Book 007",
+      "author": "Author 07",
+      "genre": "fiction"
+    },
+    {
+      "book_id": "B008",
+      "title": "Science-Fiction Book 008",
+      "author": "Author 08",
+      "genre": "science-fiction"
+    },
+    {
+      "book_id": "B009",
+      "title": "Fantasy Book 009",
+      "author": "Author 09",
+      "genre": "fantasy"
+    },
+    {
+      "book_id": "B010",
+      "title": "History Book 010",
+      "author": "Author 10",
+      "genre": "history"
+    },
+    {
+      "book_id": "B011",
+      "title": "Science Book 011",
+      "author": "Author 11",
+      "genre": "science"
+    },
+    {
+      "book_id": "B012",
+      "title": "Business Book 012",
+      "author": "Author 12",
+      "genre": "business"
+    },
+    {
+      "book_id": "B013",
+      "title": "Fiction Book 013",
+      "author": "Author 13",
+      "genre": "fiction"
+    },
+    {
+      "book_id": "B014",
+      "title": "Science-Fiction Book 014",
+      "author": "Author 14",
+      "genre": "science-fiction"
+    },
+    {
+      "book_id": "B015",
+      "title": "Fantasy Book 015",
+      "author": "Author 15",
+      "genre": "fantasy"
+    },
+    {
+      "book_id": "B016",
+      "title": "History Book 016",
+      "author": "Author 16",
+      "genre": "history"
+    },
+    {
+      "book_id": "B017",
+      "title": "Science Book 017",
+      "author": "Author 17",
+      "genre": "science"
+    },
+    {
+      "book_id": "B018",
+      "title": "Business Book 018",
+      "author": "Author 18",
+      "genre": "business"
+    },
+    {
+      "book_id": "B019",
+      "title": "Fiction Book 019",
+      "author": "Author 19",
+      "genre": "fiction"
+    },
+    {
+      "book_id": "B020",
+      "title": "Science-Fiction Book 020",
+      "author": "Author 20",
+      "genre": "science-fiction"
+    },
+    {
+      "book_id": "B021",
+      "title": "Fantasy Book 021",
+      "author": "Author 01",
+      "genre": "fantasy"
+    },
+    {
+      "book_id": "B022",
+      "title": "History Book 022",
+      "author": "Author 02",
+      "genre": "history"
+    },
+    {
+      "book_id": "B023",
+      "title": "Science Book 023",
+      "author": "Author 03",
+      "genre": "science"
+    },
+    {
+      "book_id": "B024",
+      "title": "Business Book 024",
+      "author": "Author 04",
+      "genre": "business"
+    },
+    {
+      "book_id": "B025",
+      "title": "Fiction Book 025",
+      "author": "Author 05",
+      "genre": "fiction"
+    },
+    {
+      "book_id": "B026",
+      "title": "Science-Fiction Book 026",
+      "author": "Author 06",
+      "genre": "science-fiction"
+    },
+    {
+      "book_id": "B027",
+      "title": "Fantasy Book 027",
+      "author": "Author 07",
+      "genre": "fantasy"
+    },
+    {
+      "book_id": "B028",
+      "title": "History Book 028",
+      "author": "Author 08",
+      "genre": "history"
+    },
+    {
+      "book_id": "B029",
+      "title": "Science Book 029",
+      "author": "Author 09",
+      "genre": "science"
+    },
+    {
+      "book_id": "B030",
+      "title": "Business Book 030",
+      "author": "Author 10",
+      "genre": "business"
+    },
+    {
+      "book_id": "B031",
+      "title": "Fiction Book 031",
+      "author": "Author 11",
+      "genre": "fiction"
+    },
+    {
+      "book_id": "B032",
+      "title": "Science-Fiction Book 032",
+      "author": "Author 12",
+      "genre": "science-fiction"
+    },
+    {
+      "book_id": "B033",
+      "title": "Fantasy Book 033",
+      "author": "Author 13",
+      "genre": "fantasy"
+    },
+    {
+      "book_id": "B034",
+      "title": "History Book 034",
+      "author": "Author 14",
+      "genre": "history"
+    },
+    {
+      "book_id": "B035",
+      "title": "Science Book 035",
+      "author": "Author 15",
+      "genre": "science"
+    },
+    {
+      "book_id": "B036",
+      "title": "Business Book 036",
+      "author": "Author 16",
+      "genre": "business"
+    },
+    {
+      "book_id": "B037",
+      "title": "Fiction Book 037",
+      "author": "Author 17",
+      "genre": "fiction"
+    },
+    {
+      "book_id": "B038",
+      "title": "Science-Fiction Book 038",
+      "author": "Author 18",
+      "genre": "science-fiction"
+    },
+    {
+      "book_id": "B039",
+      "title": "Fantasy Book 039",
+      "author": "Author 19",
+      "genre": "fantasy"
+    },
+    {
+      "book_id": "B040",
+      "title": "History Book 040",
+      "author": "Author 20",
+      "genre": "history"
+    },
+    {
+      "book_id": "B041",
+      "title": "Science Book 041",
+      "author": "Author 01",
+      "genre": "science"
+    },
+    {
+      "book_id": "B042",
+      "title": "Business Book 042",
+      "author": "Author 02",
+      "genre": "business"
+    },
+    {
+      "book_id": "B043",
+      "title": "Fiction Book 043",
+      "author": "Author 03",
+      "genre": "fiction"
+    },
+    {
+      "book_id": "B044",
+      "title": "Science-Fiction Book 044",
+      "author": "Author 04",
+      "genre": "science-fiction"
+    },
+    {
+      "book_id": "B045",
+      "title": "Fantasy Book 045",
+      "author": "Author 05",
+      "genre": "fantasy"
+    },
+    {
+      "book_id": "B046",
+      "title": "History Book 046",
+      "author": "Author 06",
+      "genre": "history"
+    },
+    {
+      "book_id": "B047",
+      "title": "Science Book 047",
+      "author": "Author 07",
+      "genre": "science"
+    },
+    {
+      "book_id": "B048",
+      "title": "Business Book 048",
+      "author": "Author 08",
+      "genre": "business"
+    },
+    {
+      "book_id": "B049",
+      "title": "Fiction Book 049",
+      "author": "Author 09",
+      "genre": "fiction"
+    },
+    {
+      "book_id": "B050",
+      "title": "Science-Fiction Book 050",
+      "author": "Author 10",
+      "genre": "science-fiction"
+    },
+    {
+      "book_id": "B051",
+      "title": "Fantasy Book 051",
+      "author": "Author 11",
+      "genre": "fantasy"
+    },
+    {
+      "book_id": "B052",
+      "title": "History Book 052",
+      "author": "Author 12",
+      "genre": "history"
+    },
+    {
+      "book_id": "B053",
+      "title": "Science Book 053",
+      "author": "Author 13",
+      "genre": "science"
+    },
+    {
+      "book_id": "B054",
+      "title": "Business Book 054",
+      "author": "Author 14",
+      "genre": "business"
+    },
+    {
+      "book_id": "B055",
+      "title": "Fiction Book 055",
+      "author": "Author 15",
+      "genre": "fiction"
+    },
+    {
+      "book_id": "B056",
+      "title": "Science-Fiction Book 056",
+      "author": "Author 16",
+      "genre": "science-fiction"
+    },
+    {
+      "book_id": "B057",
+      "title": "Fantasy Book 057",
+      "author": "Author 17",
+      "genre": "fantasy"
+    },
+    {
+      "book_id": "B058",
+      "title": "History Book 058",
+      "author": "Author 18",
+      "genre": "history"
+    },
+    {
+      "book_id": "B059",
+      "title": "Science Book 059",
+      "author": "Author 19",
+      "genre": "science"
+    },
+    {
+      "book_id": "B060",
+      "title": "Business Book 060",
+      "author": "Author 20",
+      "genre": "business"
+    },
+    {
+      "book_id": "B061",
+      "title": "Fiction Book 061",
+      "author": "Author 01",
+      "genre": "fiction"
+    },
+    {
+      "book_id": "B062",
+      "title": "Science-Fiction Book 062",
+      "author": "Author 02",
+      "genre": "science-fiction"
+    },
+    {
+      "book_id": "B063",
+      "title": "Fantasy Book 063",
+      "author": "Author 03",
+      "genre": "fantasy"
+    },
+    {
+      "book_id": "B064",
+      "title": "History Book 064",
+      "author": "Author 04",
+      "genre": "history"
+    },
+    {
+      "book_id": "B065",
+      "title": "Science Book 065",
+      "author": "Author 05",
+      "genre": "science"
+    },
+    {
+      "book_id": "B066",
+      "title": "Business Book 066",
+      "author": "Author 06",
+      "genre": "business"
+    },
+    {
+      "book_id": "B067",
+      "title": "Fiction Book 067",
+      "author": "Author 07",
+      "genre": "fiction"
+    },
+    {
+      "book_id": "B068",
+      "title": "Science-Fiction Book 068",
+      "author": "Author 08",
+      "genre": "science-fiction"
+    },
+    {
+      "book_id": "B069",
+      "title": "Fantasy Book 069",
+      "author": "Author 09",
+      "genre": "fantasy"
+    },
+    {
+      "book_id": "B070",
+      "title": "History Book 070",
+      "author": "Author 10",
+      "genre": "history"
+    },
+    {
+      "book_id": "B071",
+      "title": "Science Book 071",
+      "author": "Author 11",
+      "genre": "science"
+    },
+    {
+      "book_id": "B072",
+      "title": "Business Book 072",
+      "author": "Author 12",
+      "genre": "business"
+    },
+    {
+      "book_id": "B073",
+      "title": "Fiction Book 073",
+      "author": "Author 13",
+      "genre": "fiction"
+    },
+    {
+      "book_id": "B074",
+      "title": "Science-Fiction Book 074",
+      "author": "Author 14",
+      "genre": "science-fiction"
+    },
+    {
+      "book_id": "B075",
+      "title": "Fantasy Book 075",
+      "author": "Author 15",
+      "genre": "fantasy"
+    },
+    {
+      "book_id": "B076",
+      "title": "History Book 076",
+      "author": "Author 16",
+      "genre": "history"
+    },
+    {
+      "book_id": "B077",
+      "title": "Science Book 077",
+      "author": "Author 17",
+      "genre": "science"
+    },
+    {
+      "book_id": "B078",
+      "title": "Business Book 078",
+      "author": "Author 18",
+      "genre": "business"
+    },
+    {
+      "book_id": "B079",
+      "title": "Fiction Book 079",
+      "author": "Author 19",
+      "genre": "fiction"
+    },
+    {
+      "book_id": "B080",
+      "title": "Science-Fiction Book 080",
+      "author": "Author 20",
+      "genre": "science-fiction"
+    },
+    {
+      "book_id": "B081",
+      "title": "Fantasy Book 081",
+      "author": "Author 01",
+      "genre": "fantasy"
+    },
+    {
+      "book_id": "B082",
+      "title": "History Book 082",
+      "author": "Author 02",
+      "genre": "history"
+    },
+    {
+      "book_id": "B083",
+      "title": "Science Book 083",
+      "author": "Author 03",
+      "genre": "science"
+    },
+    {
+      "book_id": "B084",
+      "title": "Business Book 084",
+      "author": "Author 04",
+      "genre": "business"
+    },
+    {
+      "book_id": "B085",
+      "title": "Fiction Book 085",
+      "author": "Author 05",
+      "genre": "fiction"
+    },
+    {
+      "book_id": "B086",
+      "title": "Science-Fiction Book 086",
+      "author": "Author 06",
+      "genre": "science-fiction"
+    },
+    {
+      "book_id": "B087",
+      "title": "Fantasy Book 087",
+      "author": "Author 07",
+      "genre": "fantasy"
+    },
+    {
+      "book_id": "B088",
+      "title": "History Book 088",
+      "author": "Author 08",
+      "genre": "history"
+    },
+    {
+      "book_id": "B089",
+      "title": "Science Book 089",
+      "author": "Author 09",
+      "genre": "science"
+    },
+    {
+      "book_id": "B090",
+      "title": "Business Book 090",
+      "author": "Author 10",
+      "genre": "business"
+    },
+    {
+      "book_id": "B091",
+      "title": "Fiction Book 091",
+      "author": "Author 11",
+      "genre": "fiction"
+    },
+    {
+      "book_id": "B092",
+      "title": "Science-Fiction Book 092",
+      "author": "Author 12",
+      "genre": "science-fiction"
+    },
+    {
+      "book_id": "B093",
+      "title": "Fantasy Book 093",
+      "author": "Author 13",
+      "genre": "fantasy"
+    },
+    {
+      "book_id": "B094",
+      "title": "History Book 094",
+      "author": "Author 14",
+      "genre": "history"
+    },
+    {
+      "book_id": "B095",
+      "title": "Science Book 095",
+      "author": "Author 15",
+      "genre": "science"
+    },
+    {
+      "book_id": "B096",
+      "title": "Business Book 096",
+      "author": "Author 16",
+      "genre": "business"
+    },
+    {
+      "book_id": "B097",
+      "title": "Fiction Book 097",
+      "author": "Author 17",
+      "genre": "fiction"
+    },
+    {
+      "book_id": "B098",
+      "title": "Science-Fiction Book 098",
+      "author": "Author 18",
+      "genre": "science-fiction"
+    },
+    {
+      "book_id": "B099",
+      "title": "Fantasy Book 099",
+      "author": "Author 19",
+      "genre": "fantasy"
+    },
+    {
+      "book_id": "B100",
+      "title": "History Book 100",
+      "author": "Author 20",
+      "genre": "history"
+    }
+  ],
+  "receipts": [
+    {
+      "receipt_id": "R0001",
+      "book_id": "B001",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-07-31",
+      "quantity": 8
+    },
+    {
+      "receipt_id": "R0002",
+      "book_id": "B001",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-01",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0003",
+      "book_id": "B001",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-09-01",
+      "quantity": 7
+    },
+    {
+      "receipt_id": "R0004",
+      "book_id": "B002",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0005",
+      "book_id": "B003",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0006",
+      "book_id": "B004",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0007",
+      "book_id": "B004",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0008",
+      "book_id": "B004",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0009",
+      "book_id": "B005",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0010",
+      "book_id": "B005",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0011",
+      "book_id": "B005",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0012",
+      "book_id": "B006",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0013",
+      "book_id": "B006",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0014",
+      "book_id": "B006",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0015",
+      "book_id": "B007",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0016",
+      "book_id": "B007",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0017",
+      "book_id": "B007",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0018",
+      "book_id": "B008",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0019",
+      "book_id": "B008",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0020",
+      "book_id": "B008",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0021",
+      "book_id": "B009",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0022",
+      "book_id": "B009",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0023",
+      "book_id": "B009",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0024",
+      "book_id": "B010",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0025",
+      "book_id": "B010",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0026",
+      "book_id": "B010",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0027",
+      "book_id": "B011",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0028",
+      "book_id": "B011",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0029",
+      "book_id": "B011",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0030",
+      "book_id": "B012",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0031",
+      "book_id": "B012",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0032",
+      "book_id": "B012",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0033",
+      "book_id": "B013",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0034",
+      "book_id": "B013",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0035",
+      "book_id": "B013",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0036",
+      "book_id": "B014",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0037",
+      "book_id": "B014",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0038",
+      "book_id": "B014",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0039",
+      "book_id": "B015",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0040",
+      "book_id": "B015",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0041",
+      "book_id": "B015",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0042",
+      "book_id": "B016",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0043",
+      "book_id": "B016",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0044",
+      "book_id": "B016",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0045",
+      "book_id": "B017",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0046",
+      "book_id": "B017",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0047",
+      "book_id": "B017",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0048",
+      "book_id": "B018",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0049",
+      "book_id": "B018",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0050",
+      "book_id": "B018",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0051",
+      "book_id": "B019",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0052",
+      "book_id": "B019",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0053",
+      "book_id": "B019",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0054",
+      "book_id": "B020",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0055",
+      "book_id": "B020",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0056",
+      "book_id": "B020",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0057",
+      "book_id": "B021",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0058",
+      "book_id": "B021",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0059",
+      "book_id": "B021",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0060",
+      "book_id": "B022",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0061",
+      "book_id": "B022",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0062",
+      "book_id": "B022",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0063",
+      "book_id": "B023",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0064",
+      "book_id": "B023",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0065",
+      "book_id": "B023",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0066",
+      "book_id": "B024",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0067",
+      "book_id": "B024",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0068",
+      "book_id": "B024",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0069",
+      "book_id": "B025",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0070",
+      "book_id": "B025",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0071",
+      "book_id": "B025",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0072",
+      "book_id": "B026",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0073",
+      "book_id": "B026",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0074",
+      "book_id": "B026",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0075",
+      "book_id": "B027",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0076",
+      "book_id": "B027",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0077",
+      "book_id": "B027",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0078",
+      "book_id": "B028",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0079",
+      "book_id": "B028",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0080",
+      "book_id": "B028",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0081",
+      "book_id": "B029",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0082",
+      "book_id": "B029",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0083",
+      "book_id": "B029",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0084",
+      "book_id": "B030",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0085",
+      "book_id": "B030",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0086",
+      "book_id": "B030",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0087",
+      "book_id": "B031",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0088",
+      "book_id": "B031",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0089",
+      "book_id": "B031",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0090",
+      "book_id": "B032",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0091",
+      "book_id": "B032",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0092",
+      "book_id": "B032",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0093",
+      "book_id": "B033",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0094",
+      "book_id": "B033",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0095",
+      "book_id": "B033",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0096",
+      "book_id": "B034",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0097",
+      "book_id": "B034",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0098",
+      "book_id": "B034",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0099",
+      "book_id": "B035",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0100",
+      "book_id": "B035",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0101",
+      "book_id": "B035",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0102",
+      "book_id": "B036",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0103",
+      "book_id": "B036",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0104",
+      "book_id": "B036",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0105",
+      "book_id": "B037",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0106",
+      "book_id": "B037",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0107",
+      "book_id": "B037",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0108",
+      "book_id": "B038",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0109",
+      "book_id": "B038",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0110",
+      "book_id": "B038",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0111",
+      "book_id": "B039",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0112",
+      "book_id": "B039",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0113",
+      "book_id": "B039",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0114",
+      "book_id": "B040",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0115",
+      "book_id": "B040",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0116",
+      "book_id": "B040",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0117",
+      "book_id": "B041",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0118",
+      "book_id": "B041",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0119",
+      "book_id": "B041",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0120",
+      "book_id": "B042",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0121",
+      "book_id": "B042",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0122",
+      "book_id": "B042",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0123",
+      "book_id": "B043",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0124",
+      "book_id": "B043",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0125",
+      "book_id": "B043",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0126",
+      "book_id": "B044",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0127",
+      "book_id": "B044",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0128",
+      "book_id": "B044",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0129",
+      "book_id": "B045",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0130",
+      "book_id": "B045",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0131",
+      "book_id": "B045",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0132",
+      "book_id": "B046",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0133",
+      "book_id": "B046",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0134",
+      "book_id": "B046",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0135",
+      "book_id": "B047",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0136",
+      "book_id": "B047",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0137",
+      "book_id": "B047",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0138",
+      "book_id": "B048",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0139",
+      "book_id": "B048",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0140",
+      "book_id": "B048",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0141",
+      "book_id": "B049",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0142",
+      "book_id": "B049",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0143",
+      "book_id": "B049",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0144",
+      "book_id": "B050",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0145",
+      "book_id": "B050",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0146",
+      "book_id": "B050",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0147",
+      "book_id": "B051",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0148",
+      "book_id": "B051",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0149",
+      "book_id": "B051",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0150",
+      "book_id": "B052",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0151",
+      "book_id": "B052",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0152",
+      "book_id": "B052",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0153",
+      "book_id": "B053",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0154",
+      "book_id": "B053",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0155",
+      "book_id": "B053",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0156",
+      "book_id": "B054",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0157",
+      "book_id": "B054",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0158",
+      "book_id": "B054",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0159",
+      "book_id": "B055",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0160",
+      "book_id": "B055",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0161",
+      "book_id": "B055",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0162",
+      "book_id": "B056",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0163",
+      "book_id": "B056",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0164",
+      "book_id": "B056",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0165",
+      "book_id": "B057",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0166",
+      "book_id": "B057",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0167",
+      "book_id": "B057",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0168",
+      "book_id": "B058",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0169",
+      "book_id": "B058",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0170",
+      "book_id": "B058",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0171",
+      "book_id": "B059",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0172",
+      "book_id": "B059",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0173",
+      "book_id": "B059",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0174",
+      "book_id": "B060",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0175",
+      "book_id": "B060",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0176",
+      "book_id": "B060",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0177",
+      "book_id": "B061",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0178",
+      "book_id": "B061",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0179",
+      "book_id": "B061",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0180",
+      "book_id": "B062",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0181",
+      "book_id": "B062",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0182",
+      "book_id": "B062",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0183",
+      "book_id": "B063",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0184",
+      "book_id": "B063",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0185",
+      "book_id": "B063",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0186",
+      "book_id": "B064",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0187",
+      "book_id": "B064",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0188",
+      "book_id": "B064",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0189",
+      "book_id": "B065",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0190",
+      "book_id": "B065",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0191",
+      "book_id": "B065",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0192",
+      "book_id": "B066",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0193",
+      "book_id": "B066",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0194",
+      "book_id": "B066",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0195",
+      "book_id": "B067",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0196",
+      "book_id": "B067",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0197",
+      "book_id": "B067",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0198",
+      "book_id": "B068",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0199",
+      "book_id": "B068",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0200",
+      "book_id": "B068",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0201",
+      "book_id": "B069",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0202",
+      "book_id": "B069",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0203",
+      "book_id": "B069",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0204",
+      "book_id": "B070",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0205",
+      "book_id": "B070",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0206",
+      "book_id": "B070",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0207",
+      "book_id": "B071",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0208",
+      "book_id": "B071",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0209",
+      "book_id": "B071",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0210",
+      "book_id": "B072",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0211",
+      "book_id": "B072",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0212",
+      "book_id": "B072",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0213",
+      "book_id": "B073",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0214",
+      "book_id": "B073",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0215",
+      "book_id": "B073",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0216",
+      "book_id": "B074",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0217",
+      "book_id": "B074",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0218",
+      "book_id": "B074",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0219",
+      "book_id": "B075",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0220",
+      "book_id": "B075",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0221",
+      "book_id": "B075",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0222",
+      "book_id": "B076",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0223",
+      "book_id": "B076",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0224",
+      "book_id": "B076",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0225",
+      "book_id": "B077",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0226",
+      "book_id": "B077",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0227",
+      "book_id": "B077",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0228",
+      "book_id": "B078",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0229",
+      "book_id": "B078",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0230",
+      "book_id": "B078",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0231",
+      "book_id": "B079",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0232",
+      "book_id": "B079",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0233",
+      "book_id": "B079",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0234",
+      "book_id": "B080",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0235",
+      "book_id": "B080",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0236",
+      "book_id": "B080",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0237",
+      "book_id": "B081",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0238",
+      "book_id": "B081",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0239",
+      "book_id": "B081",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0240",
+      "book_id": "B082",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0241",
+      "book_id": "B082",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0242",
+      "book_id": "B082",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0243",
+      "book_id": "B083",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0244",
+      "book_id": "B083",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0245",
+      "book_id": "B083",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0246",
+      "book_id": "B084",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0247",
+      "book_id": "B084",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0248",
+      "book_id": "B084",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0249",
+      "book_id": "B085",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0250",
+      "book_id": "B085",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0251",
+      "book_id": "B085",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0252",
+      "book_id": "B086",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0253",
+      "book_id": "B086",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0254",
+      "book_id": "B086",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0255",
+      "book_id": "B087",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0256",
+      "book_id": "B087",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0257",
+      "book_id": "B087",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0258",
+      "book_id": "B088",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0259",
+      "book_id": "B088",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0260",
+      "book_id": "B088",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0261",
+      "book_id": "B089",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0262",
+      "book_id": "B089",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0263",
+      "book_id": "B089",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0264",
+      "book_id": "B090",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0265",
+      "book_id": "B090",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0266",
+      "book_id": "B090",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0267",
+      "book_id": "B091",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0268",
+      "book_id": "B091",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0269",
+      "book_id": "B091",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0270",
+      "book_id": "B092",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0271",
+      "book_id": "B092",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0272",
+      "book_id": "B092",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0273",
+      "book_id": "B093",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0274",
+      "book_id": "B093",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0275",
+      "book_id": "B093",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0276",
+      "book_id": "B094",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0277",
+      "book_id": "B094",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0278",
+      "book_id": "B094",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0279",
+      "book_id": "B095",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0280",
+      "book_id": "B095",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0281",
+      "book_id": "B095",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0282",
+      "book_id": "B096",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0283",
+      "book_id": "B096",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0284",
+      "book_id": "B096",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0285",
+      "book_id": "B097",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0286",
+      "book_id": "B097",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0287",
+      "book_id": "B097",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0288",
+      "book_id": "B098",
+      "vendor_id": "VENDOR-C",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0289",
+      "book_id": "B098",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0290",
+      "book_id": "B098",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0291",
+      "book_id": "B099",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-03-01",
+      "quantity": 20
+    },
+    {
+      "receipt_id": "R0292",
+      "book_id": "B099",
+      "vendor_id": "VENDOR-A",
+      "received_date": "2026-06-01",
+      "quantity": 10
+    },
+    {
+      "receipt_id": "R0293",
+      "book_id": "B099",
+      "vendor_id": "VENDOR-B",
+      "received_date": "2026-08-15",
+      "quantity": 5
+    },
+    {
+      "receipt_id": "R0294",
+      "book_id": "B010",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-31",
+      "quantity": 3
+    },
+    {
+      "receipt_id": "R0295",
+      "book_id": "B011",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-31",
+      "quantity": 3
+    },
+    {
+      "receipt_id": "R0296",
+      "book_id": "B012",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-31",
+      "quantity": 3
+    },
+    {
+      "receipt_id": "R0297",
+      "book_id": "B013",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-31",
+      "quantity": 3
+    },
+    {
+      "receipt_id": "R0298",
+      "book_id": "B014",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-31",
+      "quantity": 3
+    },
+    {
+      "receipt_id": "R0299",
+      "book_id": "B015",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-31",
+      "quantity": 3
+    },
+    {
+      "receipt_id": "R0300",
+      "book_id": "B016",
+      "vendor_id": "VENDOR-D",
+      "received_date": "2026-08-31",
+      "quantity": 3
+    }
+  ],
+  "sales": [
+    {
+      "sale_id": "S0001",
+      "book_id": "B001",
+      "sold_date": "2026-08-02",
+      "quantity": 3
+    },
+    {
+      "sale_id": "S0002",
+      "book_id": "B002",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0003",
+      "book_id": "B003",
+      "sold_date": "2026-03-02",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0004",
+      "book_id": "B004",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0005",
+      "book_id": "B004",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0006",
+      "book_id": "B005",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0007",
+      "book_id": "B005",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0008",
+      "book_id": "B006",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0009",
+      "book_id": "B006",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0010",
+      "book_id": "B007",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0011",
+      "book_id": "B007",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0012",
+      "book_id": "B008",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0013",
+      "book_id": "B008",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0014",
+      "book_id": "B009",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0015",
+      "book_id": "B009",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0016",
+      "book_id": "B010",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0017",
+      "book_id": "B010",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0018",
+      "book_id": "B011",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0019",
+      "book_id": "B011",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0020",
+      "book_id": "B012",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0021",
+      "book_id": "B012",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0022",
+      "book_id": "B013",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0023",
+      "book_id": "B013",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0024",
+      "book_id": "B014",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0025",
+      "book_id": "B014",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0026",
+      "book_id": "B015",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0027",
+      "book_id": "B015",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0028",
+      "book_id": "B016",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0029",
+      "book_id": "B016",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0030",
+      "book_id": "B017",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0031",
+      "book_id": "B017",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0032",
+      "book_id": "B018",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0033",
+      "book_id": "B018",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0034",
+      "book_id": "B019",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0035",
+      "book_id": "B019",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0036",
+      "book_id": "B020",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0037",
+      "book_id": "B020",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0038",
+      "book_id": "B021",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0039",
+      "book_id": "B021",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0040",
+      "book_id": "B022",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0041",
+      "book_id": "B022",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0042",
+      "book_id": "B023",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0043",
+      "book_id": "B023",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0044",
+      "book_id": "B024",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0045",
+      "book_id": "B024",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0046",
+      "book_id": "B025",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0047",
+      "book_id": "B025",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0048",
+      "book_id": "B026",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0049",
+      "book_id": "B026",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0050",
+      "book_id": "B027",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0051",
+      "book_id": "B027",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0052",
+      "book_id": "B028",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0053",
+      "book_id": "B028",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0054",
+      "book_id": "B029",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0055",
+      "book_id": "B029",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0056",
+      "book_id": "B030",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0057",
+      "book_id": "B030",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0058",
+      "book_id": "B031",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0059",
+      "book_id": "B031",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0060",
+      "book_id": "B032",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0061",
+      "book_id": "B032",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0062",
+      "book_id": "B033",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0063",
+      "book_id": "B033",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0064",
+      "book_id": "B034",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0065",
+      "book_id": "B034",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0066",
+      "book_id": "B035",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0067",
+      "book_id": "B035",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0068",
+      "book_id": "B036",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0069",
+      "book_id": "B036",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0070",
+      "book_id": "B037",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0071",
+      "book_id": "B037",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0072",
+      "book_id": "B038",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0073",
+      "book_id": "B038",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0074",
+      "book_id": "B039",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0075",
+      "book_id": "B039",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0076",
+      "book_id": "B040",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0077",
+      "book_id": "B040",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0078",
+      "book_id": "B041",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0079",
+      "book_id": "B041",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0080",
+      "book_id": "B042",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0081",
+      "book_id": "B042",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0082",
+      "book_id": "B043",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0083",
+      "book_id": "B043",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0084",
+      "book_id": "B044",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0085",
+      "book_id": "B044",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0086",
+      "book_id": "B045",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0087",
+      "book_id": "B045",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0088",
+      "book_id": "B046",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0089",
+      "book_id": "B046",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0090",
+      "book_id": "B047",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0091",
+      "book_id": "B047",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0092",
+      "book_id": "B048",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0093",
+      "book_id": "B048",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0094",
+      "book_id": "B049",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0095",
+      "book_id": "B049",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0096",
+      "book_id": "B050",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0097",
+      "book_id": "B050",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0098",
+      "book_id": "B051",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0099",
+      "book_id": "B051",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0100",
+      "book_id": "B052",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0101",
+      "book_id": "B052",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0102",
+      "book_id": "B053",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0103",
+      "book_id": "B053",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0104",
+      "book_id": "B054",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0105",
+      "book_id": "B054",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0106",
+      "book_id": "B055",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0107",
+      "book_id": "B055",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0108",
+      "book_id": "B056",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0109",
+      "book_id": "B056",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0110",
+      "book_id": "B057",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0111",
+      "book_id": "B057",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0112",
+      "book_id": "B058",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0113",
+      "book_id": "B058",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0114",
+      "book_id": "B059",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0115",
+      "book_id": "B059",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0116",
+      "book_id": "B060",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0117",
+      "book_id": "B060",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0118",
+      "book_id": "B061",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0119",
+      "book_id": "B061",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0120",
+      "book_id": "B062",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0121",
+      "book_id": "B062",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0122",
+      "book_id": "B063",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0123",
+      "book_id": "B063",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0124",
+      "book_id": "B064",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0125",
+      "book_id": "B064",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0126",
+      "book_id": "B065",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0127",
+      "book_id": "B065",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0128",
+      "book_id": "B066",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0129",
+      "book_id": "B066",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0130",
+      "book_id": "B067",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0131",
+      "book_id": "B067",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0132",
+      "book_id": "B068",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0133",
+      "book_id": "B068",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0134",
+      "book_id": "B069",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0135",
+      "book_id": "B069",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0136",
+      "book_id": "B070",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0137",
+      "book_id": "B070",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0138",
+      "book_id": "B071",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0139",
+      "book_id": "B071",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0140",
+      "book_id": "B072",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0141",
+      "book_id": "B072",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0142",
+      "book_id": "B073",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0143",
+      "book_id": "B073",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0144",
+      "book_id": "B074",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0145",
+      "book_id": "B074",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0146",
+      "book_id": "B075",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0147",
+      "book_id": "B075",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0148",
+      "book_id": "B076",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0149",
+      "book_id": "B076",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0150",
+      "book_id": "B077",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0151",
+      "book_id": "B077",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0152",
+      "book_id": "B078",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0153",
+      "book_id": "B078",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0154",
+      "book_id": "B079",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0155",
+      "book_id": "B079",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0156",
+      "book_id": "B080",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0157",
+      "book_id": "B080",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0158",
+      "book_id": "B081",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0159",
+      "book_id": "B081",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0160",
+      "book_id": "B082",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0161",
+      "book_id": "B082",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0162",
+      "book_id": "B083",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0163",
+      "book_id": "B083",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0164",
+      "book_id": "B084",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0165",
+      "book_id": "B084",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0166",
+      "book_id": "B085",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0167",
+      "book_id": "B085",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0168",
+      "book_id": "B086",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0169",
+      "book_id": "B086",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0170",
+      "book_id": "B087",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0171",
+      "book_id": "B087",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0172",
+      "book_id": "B088",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0173",
+      "book_id": "B088",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0174",
+      "book_id": "B089",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0175",
+      "book_id": "B089",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0176",
+      "book_id": "B090",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0177",
+      "book_id": "B090",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0178",
+      "book_id": "B091",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0179",
+      "book_id": "B091",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0180",
+      "book_id": "B092",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0181",
+      "book_id": "B092",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0182",
+      "book_id": "B093",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0183",
+      "book_id": "B093",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0184",
+      "book_id": "B094",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0185",
+      "book_id": "B094",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0186",
+      "book_id": "B095",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0187",
+      "book_id": "B095",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0188",
+      "book_id": "B096",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0189",
+      "book_id": "B096",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0190",
+      "book_id": "B097",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0191",
+      "book_id": "B097",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0192",
+      "book_id": "B098",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0193",
+      "book_id": "B098",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0194",
+      "book_id": "B099",
+      "sold_date": "2026-03-02",
+      "quantity": 5
+    },
+    {
+      "sale_id": "S0195",
+      "book_id": "B099",
+      "sold_date": "2026-08-20",
+      "quantity": 2
+    },
+    {
+      "sale_id": "S0196",
+      "book_id": "B010",
+      "sold_date": "2026-09-26",
+      "quantity": 1
+    },
+    {
+      "sale_id": "S0197",
+      "book_id": "B011",
+      "sold_date": "2026-09-26",
+      "quantity": 1
+    },
+    {
+      "sale_id": "S0198",
+      "book_id": "B012",
+      "sold_date": "2026-09-26",
+      "quantity": 1
+    },
+    {
+      "sale_id": "S0199",
+      "book_id": "B013",
+      "sold_date": "2026-09-26",
+      "quantity": 1
+    },
+    {
+      "sale_id": "S0200",
+      "book_id": "B014",
+      "sold_date": "2026-09-26",
+      "quantity": 1
+    }
+  ]
+}

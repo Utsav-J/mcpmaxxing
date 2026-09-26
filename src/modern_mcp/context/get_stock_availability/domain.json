@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "tool_name": "get_stock_availability",
+  "category": "domain",
+  "body": {
+    "terms": {
+      "available units": "Received units minus sold units; equal to on-hand here.",
+      "low_stock": "1\u20135 units; out-of-stock means zero."
+    },
+    "business_rules": [
+      "No reservations, returns, or backorders.",
+      "All values use the fixed 2026-09-26 snapshot."
+    ],
+    "examples": [
+      "B003 has 3 units available; B002 is out of stock; B100 was never supplied."
+    ],
+    "limitations": [
+      "Local dummy fixture, 2026-03-01 through 2026-09-26, Asia/Kolkata."
+    ]
+  }
+}

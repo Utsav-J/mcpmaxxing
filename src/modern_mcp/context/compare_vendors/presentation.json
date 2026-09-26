@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "tool_name": "compare_vendors",
+  "category": "presentation",
+  "body": {
+    "default_format": "table",
+    "format_rules": [
+      "multiple vendors: side-by-side metrics table",
+      "one chosen metric and capable host: optional bar chart"
+    ],
+    "required_facts": [
+      "Common period",
+      "Consistent units",
+      "Zero rows",
+      "Evidence-limited conclusions"
+    ],
+    "tone": "Concise, factual, and evidence-limited.",
+    "citation_rules": [
+      "Use returned source_uri; hyperlink only if host supports it.",
+      "Otherwise use a labeled plain reference. Never invent HTTP URLs."
+    ],
+    "fallback_format": "text",
+    "user_format_precedence": true
+  }
+}

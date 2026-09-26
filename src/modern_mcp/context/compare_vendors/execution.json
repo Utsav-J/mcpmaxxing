@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "tool_name": "compare_vendors",
+  "category": "execution",
+  "body": {
+    "purpose": "Compare two to four vendors' supply volume for the SAME date window.",
+    "when_to_use": [
+      "Compare two to four vendors' supply volume for the SAME date window."
+    ],
+    "when_not_to_use": [
+      "For one vendor use get_vendor_summary. Do not claim volume proves best quality or reliability."
+    ],
+    "parameter_rules": [
+      {
+        "parameter": "vendor_ids",
+        "rules": [
+          "2\u20134 distinct canonical IDs, including zero-supply vendors."
+        ],
+        "examples": [
+          "[\"VENDOR-A\",\"VENDOR-C\"]"
+        ]
+      }
+    ],
+    "preconditions": [
+      "Read bookstore://reference for vendor IDs and fixed clock.",
+      "Use ISO paired dates, known IDs, and no unsupported parameters."
+    ]
+  }
+}

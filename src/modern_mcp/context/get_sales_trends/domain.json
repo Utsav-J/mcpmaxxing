@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "tool_name": "get_sales_trends",
+  "category": "domain",
+  "body": {
+    "terms": {
+      "sold units": "Integer quantity actually sold in the fixture.",
+      "zero bucket": "An interval with no recorded sales, still returned."
+    },
+    "business_rules": [
+      "Sales are attributed to books, not supplying vendors.",
+      "No currency or revenue in this experiment."
+    ],
+    "examples": [
+      "April has zero sales, so its zero bucket remains visible in a monthly series."
+    ],
+    "limitations": [
+      "Local dummy fixture, 2026-03-01 through 2026-09-26, Asia/Kolkata."
+    ]
+  }
+}

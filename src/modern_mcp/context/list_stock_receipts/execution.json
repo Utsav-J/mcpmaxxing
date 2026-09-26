@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "tool_name": "list_stock_receipts",
+  "category": "execution",
+  "body": {
+    "purpose": "Inspect individual vendor receipt events, dates, and delivered quantities.",
+    "when_to_use": [
+      "Inspect individual vendor receipt events, dates, and delivered quantities."
+    ],
+    "when_not_to_use": [
+      "Use get_books for distinct catalog rows, get_stock_availability for current remaining units."
+    ],
+    "parameter_rules": [
+      {
+        "parameter": "received_from/received_before",
+        "rules": [
+          "Both ISO dates or neither; start included, end excluded."
+        ],
+        "examples": [
+          "2026-08-01 to 2026-09-01"
+        ]
+      },
+      {
+        "parameter": "book_ids/vendor_ids",
+        "rules": [
+          "Distinct known IDs; OR within each list, AND across filters."
+        ],
+        "examples": [
+          "book_ids=[\"B001\"]"
+        ]
+      }
+    ],
+    "preconditions": [
+      "Read bookstore://reference for vendor IDs and fixed clock.",
+      "Use ISO paired dates, known IDs, and no unsupported parameters."
+    ]
+  }
+}

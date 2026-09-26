@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "tool_name": "get_vendor_summary",
+  "category": "domain",
+  "body": {
+    "terms": {
+      "unique books": "Distinct book IDs received in the selected window.",
+      "genre breakdown": "Per-genre supplied counts and units, including zeros."
+    },
+    "business_rules": [
+      "Supply volume is not pricing, reliability, or quality evidence.",
+      "Summary arithmetic uses the full matched set."
+    ],
+    "examples": [
+      "A vendor may deliver the same book twice: two receipts, one unique book, summed units."
+    ],
+    "limitations": [
+      "Local dummy fixture, 2026-03-01 through 2026-09-26, Asia/Kolkata."
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "tool_name": "compare_vendors",
+  "category": "domain",
+  "body": {
+    "terms": {
+      "comparison period": "A single common receipt window for all selected vendors.",
+      "overlap": "The same catalog book may appear under several vendors."
+    },
+    "business_rules": [
+      "Do not sum vendor unique-book counts into a combined unique count.",
+      "Supply volume alone does not establish quality."
+    ],
+    "examples": [
+      "If A and B each supplied B001, their individual unique counts add to two but there is only one combined book."
+    ],
+    "limitations": [
+      "Local dummy fixture, 2026-03-01 through 2026-09-26, Asia/Kolkata."
+    ]
+  }
+}
