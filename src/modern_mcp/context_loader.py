@@ -107,32 +107,32 @@ class ContextDocument(Model):
             raise ValueError("Context document identity/body mismatch.")
 
 
-class ContextCatalog:
-    def __init__(self, root: Path | None = None):
-        root = (root or Path(str(files("modern_mcp").joinpath("context")))).resolve()
-        manifest = AuthoringManifest.model_validate_json((root / "tool_contexts.json").read_bytes())
-        if set(manifest.tools) != set(CONTRACTS):
-            raise ValueError("Context manifest must match the registered tools exactly.")
-        self.metadata = {}
-        self.resources = {}
-        for name, entry in manifest.tools.items():
-            references = {}
-            for key, category in CATEGORIES.items():
-                relative = Path(getattr(entry, key).file)
-                target = (root / relative).resolve()
-                if relative.is_absolute() or not target.is_relative_to(root):
-                    raise ValueError("Context file escapes the packaged directory.")
-                if target.stat().st_size > MAX_CONTEXT_BYTES:
-                    raise ValueError("Context document exceeds 32 KiB.")
-                document = ContextDocument.model_validate_json(target.read_bytes())
-                document.validate_identity(name, category)
-                text = canonical_json(document.model_dump(mode="json"))
-                if len(text.encode()) > MAX_CONTEXT_BYTES:
-                    raise ValueError("Canonical context exceeds 32 KiB.")
-                sha = hashlib.sha256(text.encode()).hexdigest()
-                uri = f"bookstore://context/v1/{name}/{category}/{sha}"
-                self.resources[uri] = text
-                references[key] = ResourceReference(uri=uri, sha256=sha)
-            self.metadata[name] = ToolContext(
-                schema_version=1, retrieval=entry.retrieval, **references
-            )
+def load_context_catalog(
+    root: Path | None = None,
+) -> tuple[dict[str, ToolContext], dict[str, str]]:
+    """Return validated tool metadata and resource text keyed by URI."""
+    root = (root or Path(str(files("modern_mcp").joinpath("context")))).resolve()
+    manifest = AuthoringManifest.model_validate_json((root / "tool_contexts.json").read_bytes())
+    if set(manifest.tools) != set(CONTRACTS):
+        raise ValueError("Context manifest must match the registered tools exactly.")
+    metadata, resources = {}, {}
+    for name, entry in manifest.tools.items():
+        references = {}
+        for key, category in CATEGORIES.items():
+            relative = Path(getattr(entry, key).file)
+            target = (root / relative).resolve()
+            if relative.is_absolute() or not target.is_relative_to(root):
+                raise ValueError("Context file escapes the packaged directory.")
+            if target.stat().st_size > MAX_CONTEXT_BYTES:
+                raise ValueError("Context document exceeds 32 KiB.")
+            document = ContextDocument.model_validate_json(target.read_bytes())
+            document.validate_identity(name, category)
+            text = canonical_json(document.model_dump(mode="json"))
+            if len(text.encode()) > MAX_CONTEXT_BYTES:
+                raise ValueError("Canonical context exceeds 32 KiB.")
+            sha = hashlib.sha256(text.encode()).hexdigest()
+            uri = f"bookstore://context/v1/{name}/{category}/{sha}"
+            resources[uri] = text
+            references[key] = ResourceReference(uri=uri, sha256=sha)
+        metadata[name] = ToolContext(schema_version=1, retrieval=entry.retrieval, **references)
+    return metadata, resources

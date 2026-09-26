@@ -6,32 +6,19 @@ import sys
 
 import pytest
 from mcp import Client
-from mcp.client.stdio import StdioServerParameters
 
 from modern_mcp.registry import ToolContextRegistry
 
 pytestmark = pytest.mark.anyio
 
 
-async def test_stdio_from_other_working_directory(tmp_path):
-    target = StdioServerParameters(
-        command=sys.executable, args=["-m", "modern_mcp"], cwd=str(tmp_path)
-    )
-    async with Client(target) as client:
-        registry = ToolContextRegistry(client, "stdio-test")
-        await registry.refresh()
-        assert len(registry.records) == 7
-        prepared = await registry.hydrate(["get_book_details"])
-        result = await registry.invoke(prepared, "get_book_details", {"book_id": "B001"})
-        assert result["data"]["stock_units"] == 17
-
-
-async def test_loopback_streamable_http():
+async def test_loopback_streamable_http(tmp_path):
     with socket.socket() as listener:
         listener.bind(("127.0.0.1", 0))
         port = listener.getsockname()[1]
     process = subprocess.Popen(
-        [sys.executable, "-m", "modern_mcp", "--transport", "streamable-http", "--port", str(port)],
+        [sys.executable, "-m", "modern_mcp", "--port", str(port)],
+        cwd=tmp_path,
         stdout=subprocess.DEVNULL,
         stderr=subprocess.PIPE,
         creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0,

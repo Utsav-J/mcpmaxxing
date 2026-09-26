@@ -2,15 +2,17 @@
 
 import argparse
 import inspect
+import os
 from typing import Annotated, Any
 
 from mcp.server import MCPServer
 from mcp.server.mcpserver.exceptions import ResourceNotFoundError, ToolError
+from mcp.server.transport_security import TransportSecuritySettings
 from mcp.types import CallToolResult, TextContent, ToolAnnotations
 from pydantic import Field, ValidationError
 
 from modern_mcp.bookstore import Bookstore, BookstoreError
-from modern_mcp.context_loader import META_KEY, ContextCatalog
+from modern_mcp.context_loader import META_KEY, ToolContext, load_context_catalog
 from modern_mcp.contracts import CONTRACTS, Contract
 from modern_mcp.json_support import canonical_json
 from modern_mcp.models import CompareInput, VendorSummaryInput
@@ -80,9 +82,12 @@ def _handler(store: Bookstore, contract: Contract):
     return invoke
 
 
-def create_server(store: Bookstore | None = None, catalog: ContextCatalog | None = None):
+def create_server(
+    store: Bookstore | None = None,
+    catalog: tuple[dict[str, ToolContext], dict[str, str]] | None = None,
+):
     store = store or Bookstore()
-    catalog = catalog or ContextCatalog()
+    metadata, resources = catalog if catalog is not None else load_context_catalog()
     server = BookstoreServer(
         "Bookstore context experiment",
         version="0.1.0",
@@ -98,7 +103,7 @@ def create_server(store: Bookstore | None = None, catalog: ContextCatalog | None
             name=name,
             description=contract.description,
             annotations=ToolAnnotations(read_only_hint=True, open_world_hint=False),
-            meta={META_KEY: catalog.metadata[name].model_dump(mode="json")},
+            meta={META_KEY: metadata[name].model_dump(mode="json")},
             structured_output=True,
         )
 
@@ -108,7 +113,7 @@ def create_server(store: Bookstore | None = None, catalog: ContextCatalog | None
 
         return read
 
-    for uri, text in catalog.resources.items():
+    for uri, text in resources.items():
         parts = uri.split("/")
         server.resource(
             uri,
@@ -186,15 +191,24 @@ def create_server(store: Bookstore | None = None, catalog: ContextCatalog | None
 
 def main():
     parser = argparse.ArgumentParser(description="Read-only bookstore MCP server")
-    parser.add_argument("--transport", choices=["stdio", "streamable-http"], default="stdio")
-    parser.add_argument("--host", default="127.0.0.1")
+    parser.add_argument("--host", default=os.getenv("MCP_HOST", "127.0.0.1"))
     parser.add_argument("--port", type=int, default=8000)
     args = parser.parse_args()
     server = create_server()
-    if args.transport == "stdio":
-        server.run(transport="stdio")
-    else:
-        server.run(transport="streamable-http", host=args.host, port=args.port)
+    server.run(
+        transport="streamable-http",
+        host=args.host,
+        port=args.port,
+        stateless_http=True,
+        transport_security=TransportSecuritySettings(
+            allowed_hosts=os.getenv("MCP_ALLOWED_HOSTS", "127.0.0.1:*,localhost:*,[::1]:*").split(
+                ","
+            ),
+            allowed_origins=os.getenv(
+                "MCP_ALLOWED_ORIGINS", "http://127.0.0.1:*,http://localhost:*"
+            ).split(","),
+        ),
+    )
 
 
 if __name__ == "__main__":

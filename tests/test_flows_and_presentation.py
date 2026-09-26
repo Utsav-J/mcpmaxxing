@@ -2,7 +2,7 @@ import pytest
 
 pytest.importorskip("langgraph")
 
-from examples.langgraph_context_flows import run_flow
+from examples.offline_adapter import run_flow
 from modern_mcp.presentation import HostCapabilities, display_plan
 from modern_mcp.registry import ContextError, ToolContextRegistry
 

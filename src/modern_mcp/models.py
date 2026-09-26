@@ -241,29 +241,10 @@ class Result[T](Model):
     provenance: Provenance
 
 
-class BooksResult(Result[Page[CatalogRow]]):
-    pass
-
-
-class DetailsResult(Result[BookDetails]):
-    pass
-
-
-class ReceiptsResult(Result[ReceiptPage]):
-    pass
-
-
-class StockResult(Result[Page[StockRow]]):
-    pass
-
-
-class VendorResult(Result[VendorSummary]):
-    pass
-
-
-class SalesResult(Result[SalesTrends]):
-    pass
-
-
-class ComparisonResult(Result[Comparison]):
-    pass
+BooksResult = Result[Page[CatalogRow]]
+DetailsResult = Result[BookDetails]
+ReceiptsResult = Result[ReceiptPage]
+StockResult = Result[Page[StockRow]]
+VendorResult = Result[VendorSummary]
+SalesResult = Result[SalesTrends]
+ComparisonResult = Result[Comparison]

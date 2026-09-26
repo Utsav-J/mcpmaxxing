@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 from modern_mcp.bookstore import Bookstore
-from modern_mcp.context_loader import ContextCatalog
+from modern_mcp.context_loader import load_context_catalog
 from modern_mcp.json_support import digest
 from modern_mcp.models import Fixture
 from scripts.generate_fixtures import build_fixture
@@ -49,4 +49,4 @@ def test_context_authoring_failures_stop_startup(tmp_path, failure):
         path.write_text(" " * 32769, encoding="utf-8")
     manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
     with pytest.raises((ValueError, FileNotFoundError)):
-        ContextCatalog(root)
+        load_context_catalog(root)

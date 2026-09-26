@@ -1,18 +1,18 @@
 """Real Gemini agent with staged tool context and live JSONL lifecycle tracing."""
 
-import argparse
-import asyncio
-import os
 from dataclasses import dataclass
-from pathlib import Path
+from time import perf_counter
 from typing import Any, TypedDict
 
 from langgraph.graph import END, START, StateGraph
 from langgraph.runtime import Runtime
-from mcp import Client
 
-from modern_mcp.json_support import canonical_json
-from modern_mcp.registry import ContextError, PreparedContext, ToolContextRegistry
+from examples.agent.registry import (
+    ContextError,
+    PreparedContext,
+    ToolContextRegistry,
+    canonical_json,
+)
 
 
 @dataclass
@@ -44,14 +44,13 @@ def build_graph(mode):
         raise ValueError("Unknown loading mode.")
 
     async def retrieve(state: State, runtime: Runtime[Dependencies]):
-        names = [
-            name for name, _ in runtime.context.registry.retrieve(state["query"], state.get("k", 3))
-        ]
+        ranked = runtime.context.registry.retrieve(state["query"], state.get("k", 3))
+        names = [name for name, _ in ranked]
         runtime.context.observe(
             {
                 "stage": "retrieval",
                 "visibility": "host_only",
-                "rankings": runtime.context.registry.retrieve(state["query"], state.get("k", 3)),
+                "rankings": ranked,
                 "candidates": names,
             }
         )
@@ -115,6 +114,13 @@ def build_graph(mode):
     async def synthesize(state: State, runtime: Runtime[Dependencies]):
         request = await runtime.context.registry.synthesis_request(
             state["query"], state["results"], state["prepared"].snapshot
+        )
+        runtime.context.observe(
+            {
+                "stage": "presentation_loaded",
+                "visibility": "host_only",
+                "presentation_policies": request["presentation_policies"],
+            }
         )
         output = await runtime.context.adapter.synthesize(request)
         return traced(
@@ -188,6 +194,7 @@ class GeminiAdapter:
             }
         )
         bound = self.model.bind_tools(list(tools)) if tools else self.model
+        started = perf_counter()
         response = await bound.ainvoke(messages)
         if response.invalid_tool_calls:
             raise ContextError("Gemini returned invalid tool arguments.")
@@ -198,6 +205,7 @@ class GeminiAdapter:
                 "content": response.content,
                 "tool_calls": response.tool_calls,
                 "usage": response.usage_metadata,
+                "duration_ms": round((perf_counter() - started) * 1000, 2),
             }
         )
         return response
@@ -244,88 +252,3 @@ class GeminiAdapter:
 
     async def synthesize(self, request):
         return (await self.complete(request)).content
-
-
-async def demo(query, url, mode, k, model_name, trace_path):
-    from dotenv import load_dotenv
-    from langchain_google_genai import ChatGoogleGenerativeAI
-
-    load_dotenv(Path.cwd() / ".env")
-    if not os.getenv("GOOGLE_API_KEY"):
-        raise ValueError("Set GOOGLE_API_KEY in the agent process environment.")
-    if k < 1:
-        raise ValueError("k must be positive.")
-    trace_path.parent.mkdir(parents=True, exist_ok=True)
-    with trace_path.open("w", encoding="utf-8") as trace:
-
-        def observe(event):
-            line = canonical_json(event)
-            trace.write(line + "\n")
-            trace.flush()
-            print(line, flush=True)
-
-        try:
-            async with Client(url) as client:
-                registry = ToolContextRegistry(client, url)
-                await registry.refresh()
-                observe(
-                    {
-                        "stage": "initialization",
-                        "visibility": "host_only",
-                        "server": url,
-                        "snapshot": registry.snapshot,
-                        "registry": {
-                            name: {
-                                "description": record.description,
-                                "input_schema": record.input_schema,
-                                "output_schema": record.output_schema,
-                                "metadata": record.context.model_dump(mode="json"),
-                            }
-                            for name, record in registry.records.items()
-                        },
-                    }
-                )
-                model = ChatGoogleGenerativeAI(
-                    model=model_name, vertexai=False, timeout=60, max_retries=2
-                )
-                state = await build_graph(mode).ainvoke(
-                    {"query": query, "k": k},
-                    context=Dependencies(registry, GeminiAdapter(model, observe), observe),
-                )
-                observe(
-                    {
-                        "stage": "finished",
-                        "visibility": "host_only",
-                        "trace": state["trace"],
-                        "output": state["output"],
-                    }
-                )
-                return state
-        except Exception as exc:
-            # Do not serialize provider exceptions: they can contain request credentials.
-            pending, types = [exc], set()
-            while pending:
-                error = pending.pop()
-                types.add(type(error).__name__)
-                if isinstance(error, BaseExceptionGroup):
-                    pending.extend(error.exceptions)
-                if error.__cause__ is not None:
-                    pending.append(error.__cause__)
-            observe({"stage": "error", "visibility": "host_only", "types": sorted(types)})
-            raise
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--query", default="Show books imported last month from vendor A")
-    parser.add_argument("--url", default="http://127.0.0.1:8000/mcp")
-    parser.add_argument(
-        "--mode",
-        choices=["hydrate_candidates", "select_then_hydrate"],
-        default="select_then_hydrate",
-    )
-    parser.add_argument("-k", type=int, default=3)
-    parser.add_argument("--model", default=os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite"))
-    parser.add_argument("--trace", type=Path, default=Path("artifacts/agent-context.jsonl"))
-    args = parser.parse_args()
-    asyncio.run(demo(args.query, args.url, args.mode, args.k, args.model, args.trace))

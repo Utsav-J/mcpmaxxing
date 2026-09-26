@@ -7,7 +7,7 @@ from pathlib import Path
 
 from mcp import Client
 
-from examples.langgraph_context_flows import run_flow
+from examples.offline_adapter import run_flow
 from modern_mcp.json_support import canonical_json
 from modern_mcp.registry import ToolContextRegistry
 from modern_mcp.server import create_server

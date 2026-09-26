@@ -3,7 +3,7 @@ import json
 import pytest
 from mcp import Client
 
-from modern_mcp.context_loader import ContextCatalog
+from modern_mcp.context_loader import load_context_catalog
 from modern_mcp.registry import ContextError, ToolContextRegistry
 from modern_mcp.retrieval import BM25
 from modern_mcp.server import create_server
@@ -13,13 +13,13 @@ pytestmark = pytest.mark.anyio
 
 async def test_sentinel_never_reaches_any_request_and_warm_cache():
     sentinel = "RETRIEVAL_ONLY_SENTINEL_9f731"
-    catalog = ContextCatalog()
-    original = catalog.metadata["get_books"]
+    metadata, resources = load_context_catalog()
+    original = metadata["get_books"]
     retrieval = original.retrieval.model_copy(
         update={"keywords": [*original.retrieval.keywords, sentinel]}
     )
-    catalog.metadata["get_books"] = original.model_copy(update={"retrieval": retrieval})
-    async with Client(create_server(catalog=catalog)) as client:
+    metadata["get_books"] = original.model_copy(update={"retrieval": retrieval})
+    async with Client(create_server(catalog=(metadata, resources))) as client:
         registry = ToolContextRegistry(client, "sentinel-test")
         await registry.refresh()
         candidates = [name for name, _ in registry.retrieve(sentinel)]
@@ -54,10 +54,10 @@ async def test_sentinel_never_reaches_any_request_and_warm_cache():
 
 
 async def test_bad_context_hash_blocks_generation():
-    catalog = ContextCatalog()
-    ref = catalog.metadata["get_books"].domain_knowledge
-    catalog.resources[ref.uri] += " "
-    async with Client(create_server(catalog=catalog)) as client:
+    metadata, resources = load_context_catalog()
+    ref = metadata["get_books"].domain_knowledge
+    resources[ref.uri] += " "
+    async with Client(create_server(catalog=(metadata, resources))) as client:
         registry = ToolContextRegistry(client, "broken-context")
         await registry.refresh()
         with pytest.raises(ContextError, match="hash"):

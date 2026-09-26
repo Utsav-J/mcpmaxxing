@@ -20,6 +20,12 @@ modern-mcp = "modern_mcp:main"
 examples = [
     "langgraph==1.2.12",
 ]
+agent = [
+    "langgraph==1.2.12",
+    "langchain-google-genai>=4,<5",
+    "python-dotenv>=1,<2",
+    "a2a-sdk[http-server]>=1,<2",
+]
 
 [build-system]
 requires = ["uv_build>=0.12.10,<0.13.0"]
