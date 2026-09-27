@@ -7,7 +7,9 @@ from urllib.parse import urlsplit
 from uuid import uuid4
 
 from mcp import Client
+from mcp.types import DiscoverResult
 
+from examples.agent.cache import Cache
 from examples.agent.graph import Dependencies, GeminiAdapter, build_graph
 from examples.agent.observability import Trace
 from examples.agent.registry import ToolContextRegistry
@@ -18,11 +20,12 @@ async def stream(
     url,
     model,
     *,
-    mode="select_then_hydrate",
     k=3,
     log_dir=Path("artifacts/agent"),
     run_id=None,
     task_context=None,
+    conversation=None,
+    session_id=None,
 ):
     target = urlsplit(url)
     if target.scheme not in {"http", "https"} or not target.hostname:
@@ -33,14 +36,53 @@ async def stream(
         raise ValueError("Supply a nonempty query and positive K.")
     events = asyncio.Queue()
     run_id = run_id or uuid4().hex
-    with Trace(log_dir, run_id) as trace:
+    conversation = conversation if conversation is not None else {}
+    conversation.setdefault("history", [])
+    conversation.setdefault("tokens", 0)
+    conversation.setdefault("usage_missing", 0)
+    conversation["turn"] = conversation.get("turn", 0) + 1
+    turn_tokens = 0
+    model_pending = False
+    with Trace(log_dir, run_id, session_id) as trace:
 
         def observe(event):
-            events.put_nowait(trace.emit({**(task_context or {}), **event}))
+            nonlocal turn_tokens, model_pending
+            if event["visibility"] == "model_request":
+                model_pending = True
+            if event["visibility"] == "model_response":
+                model_pending = False
+                usage = event.get("usage") or {}
+                tokens = usage.get("total_tokens")
+                if isinstance(tokens, int) and tokens >= 0:
+                    turn_tokens += tokens
+                    conversation["tokens"] += tokens
+                else:
+                    conversation["usage_missing"] += 1
+            if event["stage"] in {"error", "cancelled"} and model_pending:
+                conversation["usage_missing"] += 1
+                model_pending = False
+            events.put_nowait(
+                trace.emit(
+                    {
+                        **(task_context or {}),
+                        **event,
+                        "turn": conversation["turn"],
+                        "turn_tokens": turn_tokens,
+                        "session_tokens": conversation["tokens"],
+                        "usage_partial": conversation["usage_missing"] > 0,
+                    }
+                )
+            )
+
+        def remember(state, output):
+            conversation["history"].append(
+                {"user": query, "assistant": output, "calls": state.get("calls", [])}
+            )
+            conversation["history"][:] = conversation["history"][-10:]
 
         async def execute():
             try:
-                state = {"query": query, "k": k}
+                state = {"query": query, "k": k, "history": conversation["history"].copy()}
                 observe(
                     {
                         "stage": "initialization_start",
@@ -49,9 +91,27 @@ async def stream(
                         "agent_state": state,
                     }
                 )
-                async with Client(url) as client:
-                    registry = ToolContextRegistry(client, url)
-                    await registry.refresh()
+                cache = Cache(Path(log_dir) / "cache.sqlite3", url, observe)
+                discovery = cache.get("server/discover")
+                options = (
+                    {
+                        "mode": discovery["version"],
+                        "prior_discover": DiscoverResult.model_validate(discovery["result"]),
+                    }
+                    if discovery
+                    else {}
+                )
+                async with Client(url, **options) as client:
+                    if not discovery and client.session.discover_result is not None:
+                        cache.put(
+                            "server/discover",
+                            {
+                                "version": client.protocol_version,
+                                "result": client.session.discover_result.model_dump(mode="json"),
+                            },
+                        )
+                    registry = ToolContextRegistry(client, url, cache=cache)
+                    await registry.warm()
                     observe(
                         {
                             "stage": "registry_created",
@@ -64,7 +124,7 @@ async def stream(
                         }
                     )
                     context = Dependencies(registry, GeminiAdapter(model, observe), observe)
-                    async for update in build_graph(mode).astream(
+                    async for update in build_graph().astream(
                         state, context=context, stream_mode="updates"
                     ):
                         for node, changes in update.items():
@@ -77,6 +137,7 @@ async def stream(
                                     "loaded_context": registry._cache,
                                 }
                             )
+                remember(state, state["output"])
                 observe(
                     {
                         "stage": "finished",
@@ -84,6 +145,7 @@ async def stream(
                         "output": state["output"],
                         "markdown_trace": str(trace.markdown_path),
                         "jsonl_trace": str(trace.jsonl_path),
+                        "context_trace": str(trace.context_path),
                     }
                 )
             except asyncio.CancelledError:
@@ -102,7 +164,16 @@ async def stream(
                         pending.extend(error.exceptions)
                     if error.__cause__:
                         pending.append(error.__cause__)
-                observe({"stage": "error", "visibility": "host_only", "types": sorted(types)})
+                remember(state, "The turn failed: " + ", ".join(sorted(types)))
+                observe(
+                    {
+                        "stage": "error",
+                        "visibility": "host_only",
+                        "types": sorted(types),
+                        "jsonl_trace": str(trace.jsonl_path),
+                        "context_trace": str(trace.context_path),
+                    }
+                )
             finally:
                 events.put_nowait(None)
 

@@ -32,20 +32,21 @@ set `MCP_ALLOWED_ORIGINS` for permitted browser origins.
 
 The independent client lives in [examples/agent](examples/agent/README.md) and uses
 this repository's environment. It imports no server code, constructs its own
-registry using HTTP discovery, and runs LangGraph + Gemini with local Markdown
-and JSONL traces. The same agent is exposed through the official A2A SDK.
+registry using HTTP discovery, and runs conversational LangGraph + Gemini through
+the official A2A SDK. Metadata and server results have persistent five-minute
+caches; detailed events and exact stage contexts go to separate JSONL files.
 
 ```powershell
 uv sync --frozen --extra agent
 uv run --frozen --extra agent python -m examples.agent --serve --mcp-url http://127.0.0.1:8000/mcp
 # In another terminal:
-uv run --frozen --extra agent python -m examples.agent.client "Show books imported last month from vendor A"
+uv run --frozen --extra agent python -m examples.agent.client
 ```
 
 Set `GOOGLE_API_KEY` in the environment or `.env`. Each task logs registry creation,
 top-K retrieval, graph state after every node, exact model requests/responses,
-tool invocations/results, and presentation policy loading. A2A streams Markdown
-updates and returns the answer plus a context-trace artifact. See the example's
+tool invocations/results, and presentation policy loading. The CLI shows brief
+latency/token updates and Markdown answers. A2A also returns a context-trace artifact. See the example's
 README for direct execution, stage boundaries, and limitations.
 
 ## Does the LLM automatically read tool `_meta`?

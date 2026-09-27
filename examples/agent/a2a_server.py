@@ -1,5 +1,6 @@
 """Official A2A SDK task lifecycle around the LangGraph runner."""
 
+import asyncio
 import json
 from contextlib import aclosing
 from pathlib import Path
@@ -12,65 +13,106 @@ from a2a.server.tasks import InMemoryTaskStore, TaskUpdater
 from a2a.types import AgentCapabilities, AgentCard, AgentInterface, AgentSkill, Part, TaskState
 from starlette.applications import Starlette
 
-from examples.agent.observability import markdown
+from examples.agent.observability import status
 from examples.agent.runner import stream
 
 
 class Executor(AgentExecutor):
     def __init__(self, url, model, **options):
         self.url, self.model, self.options = url, model, options
+        # ponytail: demo sessions stay in memory; evict idle sessions for multi-user hosting.
+        self.conversations = {}
 
     async def execute(self, context, event_queue):
         task = context.current_task or new_task_from_user_message(context.message)
         await event_queue.enqueue_event(task)
         updater = TaskUpdater(event_queue, task.id, task.context_id)
-        try:
-            async with aclosing(
-                stream(
-                    context.get_user_input(),
-                    self.url,
-                    self.model,
-                    task_context={"a2a_task_id": task.id, "a2a_context_id": task.context_id},
-                    **self.options,
-                )
-            ) as events:
-                async for event in events:
-                    message = new_text_message(
-                        markdown(event),
-                        media_type="text/markdown",
+        session = self.conversations.setdefault(task.context_id, {"lock": asyncio.Lock()})
+        async with session["lock"]:
+            try:
+                async with aclosing(
+                    stream(
+                        context.get_user_input(),
+                        self.url,
+                        self.model,
+                        task_context={"a2a_task_id": task.id, "a2a_context_id": task.context_id},
+                        conversation=session,
+                        session_id=task.context_id,
+                        **self.options,
+                    )
+                ) as events:
+                    async for event in events:
+                        message = new_text_message(
+                            status(event), task_id=task.id, context_id=task.context_id
+                        )
+                        progress = {
+                            key: event[key]
+                            for key in (
+                                "stage",
+                                "turn",
+                                "elapsed_ms",
+                                "turn_tokens",
+                                "session_tokens",
+                                "usage_partial",
+                            )
+                        }
+                        if event["stage"] == "error":
+                            await updater.failed(
+                                new_text_message(
+                                    status(event) + " Failure: " + ", ".join(event["types"]),
+                                    task_id=task.id,
+                                    context_id=task.context_id,
+                                )
+                            )
+                            return
+                        if event["stage"] == "finished":
+                            output = event["output"]
+                            if not isinstance(output, str):
+                                output = json.dumps(output, ensure_ascii=False, indent=2)
+                            await updater.add_artifact(
+                                [Part(text=output, media_type="text/markdown")], name="answer"
+                            )
+                            await updater.add_artifact(
+                                [
+                                    Part(
+                                        text=Path(event["context_trace"]).read_text("utf-8"),
+                                        media_type="application/x-ndjson",
+                                    )
+                                ],
+                                name="context_trace",
+                            )
+                            await updater.update_status(
+                                TaskState.TASK_STATE_COMPLETED,
+                                message,
+                                metadata={
+                                    "progress": progress,
+                                    "logs": {
+                                        key: event[key]
+                                        for key in (
+                                            "jsonl_trace",
+                                            "context_trace",
+                                            "markdown_trace",
+                                        )
+                                    },
+                                },
+                            )
+                            return
+                        if event["visibility"] in {"model_request", "model_response"} or event[
+                            "stage"
+                        ] in {"registry_created", "tool_invocation"}:
+                            await updater.update_status(
+                                TaskState.TASK_STATE_WORKING,
+                                message,
+                                metadata={"progress": progress},
+                            )
+            except Exception as exc:
+                await updater.failed(
+                    new_text_message(
+                        f"Agent failed: {type(exc).__name__}. See local logs.",
                         task_id=task.id,
                         context_id=task.context_id,
                     )
-                    if event["stage"] == "error":
-                        await updater.failed(message)
-                        return
-                    if event["stage"] == "finished":
-                        output = event["output"]
-                        if not isinstance(output, str):
-                            output = json.dumps(output, ensure_ascii=False, indent=2)
-                        await updater.add_artifact(
-                            [Part(text=output, media_type="text/markdown")], name="answer"
-                        )
-                        await updater.add_artifact(
-                            [
-                                Part(
-                                    text=Path(event["markdown_trace"]).read_text("utf-8"),
-                                    media_type="text/markdown",
-                                )
-                            ],
-                            name="context_trace",
-                        )
-                        await updater.complete(message)
-                        return
-                    await updater.update_status(TaskState.TASK_STATE_WORKING, message)
-        except Exception as exc:
-            await updater.failed(
-                new_text_message(
-                    f"Agent failed: {type(exc).__name__}. See the local context trace.",
-                    task_id=task.id,
-                    context_id=task.context_id,
                 )
-            )
 
     async def cancel(self, context, event_queue):
         # The SDK cancels execute(); runner's finally cancels its graph worker.

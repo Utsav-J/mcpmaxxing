@@ -3,6 +3,7 @@
 import argparse
 import inspect
 import os
+import time
 from typing import Annotated, Any
 
 from mcp.server import MCPServer
@@ -14,8 +15,9 @@ from pydantic import Field, ValidationError
 from modern_mcp.bookstore import Bookstore, BookstoreError
 from modern_mcp.context_loader import META_KEY, ToolContext, load_context_catalog
 from modern_mcp.contracts import CONTRACTS, Contract
-from modern_mcp.json_support import canonical_json
+from modern_mcp.json_support import canonical_json, digest
 from modern_mcp.models import CompareInput, VendorSummaryInput
+from modern_mcp.result_cache import TTL, ResultCache
 
 
 def error_result(code, message):
@@ -49,7 +51,41 @@ class BookstoreServer(MCPServer):
             fields = sorted({".".join(map(str, e["loc"])) or "arguments" for e in exc.errors()})
             return error_result("INVALID_ARGUMENT", "Check fields: " + ", ".join(fields)[:500])
         try:
-            return await super().call_tool(name, request.model_dump(), context)
+            key = digest(
+                {
+                    "revision": self.cache_revision,
+                    "tool": name,
+                    "arguments": request.model_dump(mode="json"),
+                }
+            )
+            cached = self.result_cache.get(key)
+            if cached:
+                data, created = cached
+                CONTRACTS[name].output_model.model_validate(data)
+                result = CallToolResult(
+                    content=[TextContent(type="text", text=canonical_json(data))],
+                    structured_content=data,
+                )
+                status = "hit"
+            else:
+                # ponytail: concurrent cold misses may duplicate reads; coalesce if costly.
+                result = await super().call_tool(name, request.model_dump(), context)
+                if result.is_error or result.structured_content is None:
+                    return result
+                created = self.result_cache.put(key, result.structured_content)
+                status = "miss"
+            return result.model_copy(
+                update={
+                    "meta": {
+                        **(result.meta or {}),
+                        "modern_mcp/cache": {
+                            "status": status,
+                            "ttl_seconds": TTL,
+                            "age_seconds": round(time.time() - created, 3),
+                        },
+                    }
+                }
+            )
         except ToolError:
             return error_result("TOOL_FAILURE", "Tool execution failed.")
 
@@ -85,6 +121,7 @@ def _handler(store: Bookstore, contract: Contract):
 def create_server(
     store: Bookstore | None = None,
     catalog: tuple[dict[str, ToolContext], dict[str, str]] | None = None,
+    cache_path=None,
 ):
     store = store or Bookstore()
     metadata, resources = catalog if catalog is not None else load_context_catalog()
@@ -96,6 +133,23 @@ def create_server(
             "Read-only demo bookstore. "
             "Clients resolve tool context references before calling tools."
         ),
+    )
+    server.result_cache = ResultCache(
+        cache_path or os.getenv("MCP_CACHE_PATH", "artifacts/mcp-cache.sqlite3")
+    )
+    server.cache_revision = digest(
+        {
+            "cache_format": 1,
+            "fixture": store.manifest.sha256,
+            "contracts": {
+                name: {
+                    "input": contract.input_model.model_json_schema(),
+                    "output": contract.output_model.model_json_schema(),
+                    "context": metadata[name].model_dump(mode="json"),
+                }
+                for name, contract in CONTRACTS.items()
+            },
+        }
     )
     for name, contract in CONTRACTS.items():
         server.add_tool(

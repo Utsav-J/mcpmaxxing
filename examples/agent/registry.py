@@ -8,7 +8,7 @@ import re
 from collections import Counter
 from dataclasses import dataclass
 
-from jsonschema import Draft202012Validator, FormatChecker
+from jsonschema import Draft202012Validator, FormatChecker, ValidationError
 
 CATEGORIES = {
     "execution_instructions": "execution",
@@ -52,13 +52,33 @@ async def listing(method, field):
 
 
 class ToolContextRegistry:
-    def __init__(self, client, server_identity, meta_key=None):
+    def __init__(self, client, server_identity, meta_key=None, cache=None):
         self.client, self.server_identity, self.meta_key = client, server_identity, meta_key
         self.records, self.resources, self._cache = {}, [], {}
         self.snapshot = ""
-        self._prepared = ""
+        self.cache = cache
+        self.last_result_meta = {}
 
     async def refresh(self):
+        saved = self.cache.get("catalog") if self.cache else None
+        if saved:
+            self.records, self.resources, self.references = (
+                saved["records"],
+                saved["resources"],
+                saved["references"],
+            )
+            self.snapshot, self.index = saved["snapshot"], saved["bm25"]
+            if self.snapshot != digest(
+                {
+                    "server": self.server_identity,
+                    "records": self.records,
+                    "references": self.references,
+                }
+            ):
+                raise ContextError("Cached catalog was altered.")
+            if saved["bm25_digest"] != digest(self.index):
+                raise ContextError("Cached BM25 index was altered.")
+            return
         records = {}
         for tool in await listing(self.client.list_tools, "tools"):
             if tool.name in records:
@@ -134,6 +154,25 @@ class ToolContextRegistry:
         self.snapshot = digest(
             {"server": self.server_identity, "records": records, "references": references}
         )
+        self.index = self._build_index()
+        if self.cache:
+            self.cache.put(
+                "catalog",
+                {
+                    "records": self.records,
+                    "resources": self.resources,
+                    "references": self.references,
+                    "snapshot": self.snapshot,
+                    "bm25": self.index,
+                    "bm25_digest": digest(self.index),
+                },
+            )
+
+    async def warm(self):
+        await self.refresh()
+        for name in self.records:
+            for category in CATEGORIES.values():
+                await self.load(name, category)
 
     async def _resource_text(self, uri):
         result = await self.client.read_resource(uri, cache_mode="bypass")
@@ -144,10 +183,7 @@ class ToolContextRegistry:
             raise ContextError("Missing or oversized context resource.")
         return text
 
-    def retrieve(self, query, k=3):
-        if not self.snapshot or not query.strip() or type(k) is not int or k < 1:
-            raise ContextError("Initialize registry, supply a query, and use positive K.")
-
+    def _build_index(self):
         def tokens(text):
             return re.findall(r"[^\W_]+", text.casefold())
 
@@ -170,12 +206,29 @@ class ToolContextRegistry:
         if not average:
             raise ContextError("Empty retrieval corpus.")
         frequency = Counter(term for counter in counts.values() for term in counter)
+        return {
+            "counts": {name: dict(counter) for name, counter in counts.items()},
+            "lengths": lengths,
+            "average": average,
+            "frequency": dict(frequency),
+        }
+
+    def retrieve(self, query, k=3):
+        if not self.snapshot or not query.strip() or type(k) is not int or k < 1:
+            raise ContextError("Initialize registry, supply a query, and use positive K.")
+
+        counts = self.index["counts"]
+        lengths, average, frequency = (
+            self.index["lengths"],
+            self.index["average"],
+            self.index["frequency"],
+        )
         ranked = []
         # ponytail: linear BM25 scan; build a persistent index if the catalog grows large.
         for name, counter in counts.items():
             score = 0.0
-            for term in sorted(set(tokens(query))):
-                tf = counter[term]
+            for term in sorted(set(re.findall(r"[^\W_]+", query.casefold()))):
+                tf = counter.get(term, 0)
                 if tf:
                     idf = math.log1p(
                         (len(counts) - frequency[term] + 0.5) / (frequency[term] + 0.5)
@@ -190,23 +243,15 @@ class ToolContextRegistry:
             raise ContextError("Selected names must be a distinct subset of candidates.")
         return tuple(names)
 
-    def selection_request(self, query, candidates):
-        self.validate_selection(self.records, candidates)
-        return {
-            "stage": "selection",
-            "query": query,
-            "instruction": "Choose only tool names or decline. Do not generate arguments.",
-            "candidates": [
-                {"name": name, "description": self.records[name]["description"]}
-                for name in candidates
-            ],
-        }
-
     async def load(self, name, category):
         key = next(key for key, value in CATEGORIES.items() if value == category)
         ref = self.records[name]["context"][key]
         if ref["uri"] not in self._cache:
-            text = await self._resource_text(ref["uri"])
+            cache_key = "resource:" + ref["sha256"]
+            text = self.cache.get(cache_key) if self.cache else None
+            from_disk = text is not None
+            if text is None:
+                text = await self._resource_text(ref["uri"])
             if hashlib.sha256(text.encode()).hexdigest() != ref["sha256"]:
                 raise ContextError("Context hash mismatch.")
             doc = json.loads(text)
@@ -218,6 +263,8 @@ class ToolContextRegistry:
             ):
                 raise ContextError("Context document identity mismatch.")
             self._cache[ref["uri"]] = doc
+            if self.cache and not from_disk:
+                self.cache.put(cache_key, text)
         doc = self._cache[ref["uri"]]
         if digest(doc) != ref["sha256"]:
             raise ContextError("Cached context was altered.")
@@ -239,12 +286,30 @@ class ToolContextRegistry:
         prepared = PreparedContext(
             self.snapshot, tuple(names), tuple(definitions), tuple(instructions)
         )
-        self._prepared = digest(prepared.__dict__)
         return prepared
 
     def _check_prepared(self, prepared):
-        if prepared.snapshot != self.snapshot or digest(prepared.__dict__) != self._prepared:
-            raise ContextError("Prepared context is stale or was altered.")
+        if prepared.snapshot != self.snapshot:
+            raise ContextError("Prepared context is stale.")
+        self.validate_selection(self.records, prepared.names)
+        definitions, instructions = [], copy.deepcopy(self.references)
+        for name in prepared.names:
+            record = self.records[name]
+            definitions.append(
+                {key: record[key] for key in ("name", "description", "input_schema")}
+            )
+            for key in ("execution_instructions", "domain_knowledge"):
+                ref = record["context"][key]
+                doc = self._cache.get(ref["uri"])
+                if doc is None or digest(doc) != ref["sha256"]:
+                    raise ContextError("Missing or altered pre-call context.")
+                instructions.append(
+                    {"tool": name, "category": CATEGORIES[key], "body": doc["body"]}
+                )
+        if prepared.definitions != tuple(definitions) or prepared.instructions != tuple(
+            instructions
+        ):
+            raise ContextError("Prepared context was altered.")
 
     def argument_request(self, query, prepared):
         self._check_prepared(prepared)
@@ -253,22 +318,38 @@ class ToolContextRegistry:
             "query": query,
             "tools": copy.deepcopy(prepared.definitions),
             "instructions": copy.deepcopy(prepared.instructions),
-            "instruction": "Use loaded execution/domain rules to generate calls or decline.",
+            "instruction": "Choose from the eligible tools using loaded execution/domain rules. "
+            "Generate arguments using conversation history and the resolved query. "
+            "Ask for clarification if required information is missing; do not invent values.",
         }
 
     def validate_call(self, prepared, name, arguments):
         self._check_prepared(prepared)
         if name not in prepared.names:
             raise ContextError("Attempted invocation of an unselected tool.")
-        Draft202012Validator(
-            self.records[name]["input_schema"], format_checker=FormatChecker()
-        ).validate(arguments)
+        try:
+            Draft202012Validator(
+                self.records[name]["input_schema"], format_checker=FormatChecker()
+            ).validate(arguments)
+        except ValidationError as exc:
+            path = ".".join(map(str, exc.path)) or "arguments"
+            raise ContextError(f"Invalid arguments for {name} at {path}.") from exc
 
     async def invoke(self, prepared, name, arguments):
         self.validate_call(prepared, name, arguments)
         result = await self.client.call_tool(name, arguments)
+        if self.cache:
+            self.cache.observe(
+                {
+                    "stage": "mcp_result",
+                    "visibility": "host_only",
+                    "tool": name,
+                    "result": result.model_dump(mode="json"),
+                }
+            )
         if result.is_error:
             raise ContextError("MCP tool returned an error; do not synthesize success.")
+        self.last_result_meta = copy.deepcopy(result.meta or {})
         data = result.structured_content
         if self.records[name]["output_schema"] is not None:
             Draft202012Validator(
