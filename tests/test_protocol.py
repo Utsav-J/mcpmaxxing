@@ -3,8 +3,10 @@ import json
 import pytest
 from jsonschema import Draft202012Validator, FormatChecker
 
+from modern_mcp.bookstore import Bookstore
 from modern_mcp.context_loader import META_KEY
 from modern_mcp.contracts import CONTRACTS
+from modern_mcp.server import create_server
 
 pytestmark = pytest.mark.anyio
 
@@ -17,6 +19,41 @@ CALLS = {
     "get_sales_trends": {"interval": "week"},
     "compare_vendors": {"vendor_ids": ["VENDOR-A", "VENDOR-B"]},
 }
+
+
+@pytest.mark.parametrize("name", CALLS)
+async def test_explicit_tools_forward_filters_and_pagination(name, tmp_path):
+    store = Bookstore()
+    contract = CONTRACTS[name]
+    values = {
+        "limit": 1,
+        "genre": "fiction",
+        "vendor_ids": ["VENDOR-A", "VENDOR-B"],
+        "book_ids": ["B001"],
+        "received_from": "2026-08-01",
+        "received_before": "2026-09-01",
+        "sold_from": "2026-08-01",
+        "sold_before": "2026-09-01",
+        "stock_status": "in_stock",
+        "interval": "week",
+        "book_id": "B001",
+        "vendor_id": "VENDOR-A",
+    }
+    arguments = {
+        key: value for key, value in values.items() if key in contract.input_model.model_fields
+    }
+    server = create_server(store, cache_path=tmp_path / "cache.sqlite3")
+    expected = getattr(store, name)(contract.input_model.model_validate(arguments))
+    actual = await server.call_tool(name, arguments)
+    assert not actual.is_error
+    assert actual.structured_content == expected.model_dump(mode="json")
+    cursor = actual.structured_content["data"].get("next_cursor")
+    if cursor:
+        arguments["cursor"] = cursor
+        expected = getattr(store, name)(contract.input_model.model_validate(arguments))
+        actual = await server.call_tool(name, arguments)
+        assert not actual.is_error
+        assert actual.structured_content == expected.model_dump(mode="json")
 
 
 async def test_discovery_typed_calls_contexts_and_resources(client):

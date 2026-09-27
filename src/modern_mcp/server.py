@@ -1,22 +1,43 @@
 """Official MCPServer with strict flat arguments and locally backed resources."""
 
 import argparse
-import inspect
 import os
 import time
-from typing import Annotated, Any
+from typing import Any, Literal
 
 from mcp.server import MCPServer
 from mcp.server.mcpserver.exceptions import ResourceNotFoundError, ToolError
 from mcp.server.transport_security import TransportSecuritySettings
 from mcp.types import CallToolResult, TextContent, ToolAnnotations
-from pydantic import Field, ValidationError
+from pydantic import ValidationError
 
 from modern_mcp.bookstore import Bookstore, BookstoreError
 from modern_mcp.context_loader import META_KEY, ToolContext, load_context_catalog
-from modern_mcp.contracts import CONTRACTS, Contract
+from modern_mcp.contracts import CONTRACTS
 from modern_mcp.json_support import canonical_json, digest
-from modern_mcp.models import CompareInput, VendorSummaryInput
+from modern_mcp.models import (
+    BookDetailsInput,
+    BookId,
+    BookIds,
+    BooksResult,
+    CompareInput,
+    ComparisonResult,
+    DetailsResult,
+    Genre,
+    GetBooksInput,
+    Interval,
+    IsoDate,
+    ReceiptsInput,
+    ReceiptsResult,
+    SalesInput,
+    SalesResult,
+    StockInput,
+    StockResult,
+    VendorId,
+    VendorIds,
+    VendorResult,
+    VendorSummaryInput,
+)
 from modern_mcp.result_cache import TTL, ResultCache
 
 
@@ -86,36 +107,11 @@ class BookstoreServer(MCPServer):
                     }
                 }
             )
-        except ToolError:
+        except ToolError as exc:
+            if isinstance(exc.__cause__, BookstoreError):
+                error = exc.__cause__
+                return error_result(error.code, str(error).split(": ", 1)[1])
             return error_result("TOOL_FAILURE", "Tool execution failed.")
-
-
-def _handler(store: Bookstore, contract: Contract):
-    """Expose a model's flat fields through the SDK's public function registration."""
-
-    def invoke(**kwargs):
-        try:
-            request = contract.input_model.model_validate(kwargs)
-            return getattr(store, contract.name)(request)
-        except BookstoreError as exc:
-            # Return explicit errors; the SDK skips success-schema validation on errors.
-            return error_result(exc.code, str(exc).split(": ", 1)[1])
-
-    parameters = []
-    for name, field in contract.input_model.model_fields.items():
-        annotation = Annotated[field.rebuild_annotation(), Field(description=field.description)]
-        parameters.append(
-            inspect.Parameter(
-                name,
-                inspect.Parameter.KEYWORD_ONLY,
-                annotation=annotation,
-                default=inspect.Parameter.empty if field.is_required() else field.default,
-            )
-        )
-    invoke.__name__ = contract.name
-    invoke.__doc__ = contract.description
-    invoke.__signature__ = inspect.Signature(parameters, return_annotation=contract.output_model)
-    return invoke
 
 
 def create_server(
@@ -151,22 +147,136 @@ def create_server(
             },
         }
     )
-    for name, contract in CONTRACTS.items():
+
+    def get_books(
+        *,
+        limit: int = 20,
+        cursor: str | None = None,
+        genre: Genre | None = None,
+        vendor_ids: VendorIds | None = None,
+        received_from: IsoDate | None = None,
+        received_before: IsoDate | None = None,
+    ) -> BooksResult:
+        return store.get_books(
+            GetBooksInput(
+                limit=limit,
+                cursor=cursor,
+                genre=genre,
+                vendor_ids=vendor_ids,
+                received_from=received_from,
+                received_before=received_before,
+            )
+        )
+
+    def get_book_details(*, book_id: BookId) -> DetailsResult:
+        return store.get_book_details(BookDetailsInput(book_id=book_id))
+
+    def list_stock_receipts(
+        *,
+        limit: int = 20,
+        cursor: str | None = None,
+        genre: Genre | None = None,
+        vendor_ids: VendorIds | None = None,
+        book_ids: BookIds | None = None,
+        received_from: IsoDate | None = None,
+        received_before: IsoDate | None = None,
+    ) -> ReceiptsResult:
+        return store.list_stock_receipts(
+            ReceiptsInput(
+                limit=limit,
+                cursor=cursor,
+                genre=genre,
+                vendor_ids=vendor_ids,
+                book_ids=book_ids,
+                received_from=received_from,
+                received_before=received_before,
+            )
+        )
+
+    def get_stock_availability(
+        *,
+        limit: int = 20,
+        cursor: str | None = None,
+        book_ids: BookIds | None = None,
+        genre: Genre | None = None,
+        stock_status: Literal["all", "out_of_stock", "low_stock", "in_stock"] = "all",
+    ) -> StockResult:
+        return store.get_stock_availability(
+            StockInput(
+                limit=limit,
+                cursor=cursor,
+                book_ids=book_ids,
+                genre=genre,
+                stock_status=stock_status,
+            )
+        )
+
+    def get_vendor_summary(
+        *,
+        vendor_id: VendorId,
+        received_from: IsoDate | None = None,
+        received_before: IsoDate | None = None,
+    ) -> VendorResult:
+        return store.get_vendor_summary(
+            VendorSummaryInput(
+                vendor_id=vendor_id,
+                received_from=received_from,
+                received_before=received_before,
+            )
+        )
+
+    def get_sales_trends(
+        *,
+        sold_from: IsoDate | None = None,
+        sold_before: IsoDate | None = None,
+        interval: Interval = "month",
+        genre: Genre | None = None,
+    ) -> SalesResult:
+        return store.get_sales_trends(
+            SalesInput(
+                sold_from=sold_from,
+                sold_before=sold_before,
+                interval=interval,
+                genre=genre,
+            )
+        )
+
+    def compare_vendors(
+        *,
+        vendor_ids: list[VendorId],
+        received_from: IsoDate | None = None,
+        received_before: IsoDate | None = None,
+    ) -> ComparisonResult:
+        return store.compare_vendors(
+            CompareInput(
+                vendor_ids=vendor_ids,
+                received_from=received_from,
+                received_before=received_before,
+            )
+        )
+
+    for tool in (
+        get_books,
+        get_book_details,
+        list_stock_receipts,
+        get_stock_availability,
+        get_vendor_summary,
+        get_sales_trends,
+        compare_vendors,
+    ):
+        name = tool.__name__
         server.add_tool(
-            _handler(store, contract),
+            tool,
             name=name,
-            description=contract.description,
+            description=CONTRACTS[name].description,
             annotations=ToolAnnotations(read_only_hint=True, open_world_hint=False),
             meta={META_KEY: metadata[name].model_dump(mode="json")},
             structured_output=True,
         )
 
     def resource_reader(text):
-        def read() -> str:
-            return text
-
-        return read
-
+        return text
+        
     for uri, text in resources.items():
         parts = uri.split("/")
         server.resource(

@@ -39,7 +39,6 @@ from modern_mcp.models import (
     VendorTotals,
 )
 
-
 class BookstoreError(ValueError):
     def __init__(self, code: str, message: str):
         self.code = code
