@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Conversational Agent — Runtime Deep Dive",
+    "output": ".archify/architecture-agent-20261003-160526/agent.html",
+    "quality_profile": "showcase",
+    "repository": {"url":"https://github.com/Utsav-J/mcpmaxxing.git","provider":"github","link_mode":"web","revision":"2773591545392c2fb54bd888969e07920ab6b36e"}
+  },
+  "components": [
+    {"id":"user","type":"external","label":"User","sublabel":"chat turn","pos":[40,340],"size":[130,62],"sources":[{"path":"examples/agent/client.py","line":31,"end_line":80}]},
+    {"id":"cli","type":"backend","label":"Agent CLI","sublabel":"direct chat or serve mode","pos":[230,340],"size":[170,68],"sources":[{"path":"examples/agent/__main__.py","line":18,"end_line":97}]},
+    {"id":"a2aclient","type":"external","label":"A2A Client","sublabel":"card cache · context ID","pos":[40,100],"size":[160,64],"sources":[{"path":"examples/agent/client.py","line":17,"end_line":80}]},
+    {"id":"a2aserver","type":"backend","label":"A2A Service","sublabel":"card + JSON-RPC · serialized turns/context","pos":[230,100],"size":[200,72],"sources":[{"path":"examples/agent/a2a_server.py","line":19,"end_line":43},{"path":"examples/agent/a2a_server.py","line":92,"end_line":125}]},
+    {"id":"runner","type":"backend","label":"Turn Runner","sublabel":"history · trace · graph streaming","pos":[500,340],"size":[190,72],"sources":[{"path":"examples/agent/runner.py","line":68,"end_line":165}]},
+    {"id":"graph","type":"backend","label":"LangGraph Orchestrator","sublabel":"staged conversational flow","pos":[790,340],"size":[190,78],"sources":[{"path":"examples/agent/graph.py","line":37,"end_line":163}]},
+    {"id":"gemini","type":"cloud","label":"Gemini Adapter","sublabel":"intent · tool arguments · synthesis","pos":[790,100],"size":[210,68],"sources":[{"path":"examples/agent/graph.py","line":166,"end_line":264}]},
+    {"id":"registry","type":"backend","label":"Tool Context Registry","sublabel":"discovery · BM25 · validation","pos":[1110,340],"size":[210,78],"sources":[{"path":"examples/agent/registry.py","line":53,"end_line":119},{"path":"examples/agent/registry.py","line":179,"end_line":223}]},
+    {"id":"mcp","type":"external","label":"MCP Server","sublabel":"HTTP discovery · resources · calls","pos":[1360,340],"size":[200,72],"sources":[{"path":"examples/agent/registry.py","line":32,"end_line":52},{"path":"examples/agent/registry.py","line":358,"end_line":381}]},
+    {"id":"metacache","type":"database","label":"Agent Metadata Cache","sublabel":"SQLite · endpoint namespace · TTL 300s","pos":[1110,100],"size":[220,68],"sources":[{"path":"examples/agent/cache.py","line":11,"end_line":43}]},
+    {"id":"servercache","type":"database","label":"MCP Result Cache","sublabel":"server-owned successful results","pos":[1350,100],"size":[220,68],"sources":[{"path":"README.md","line":88,"end_line":98}]},
+    {"id":"trace","type":"backend","label":"Trace & Observer","sublabel":"events + exact context JSONL + Markdown","pos":[500,570],"size":[220,72],"sources":[{"path":"examples/agent/observability.py","line":26,"end_line":78}]},
+    {"id":"memory","type":"backend","label":"Conversation Memory","sublabel":"last 10 completed turns · in memory","pos":[790,570],"size":[220,68],"sources":[{"path":"examples/agent/runner.py","line":40,"end_line":66},{"path":"examples/agent/runner.py","line":91,"end_line":96}]},
+    {"id":"logs","type":"database","label":"Local Trace Files","sublabel":"JSONL · context JSONL · Markdown","pos":[1110,570],"size":[220,68],"sources":[{"path":"examples/agent/observability.py","line":26,"end_line":78}]},
+    {"id":"answer","type":"external","label":"Answer + Trace Artifact","sublabel":"Markdown response · A2A completion artifacts","pos":[1350,570],"size":[220,68],"sources":[{"path":"examples/agent/a2a_server.py","line":44,"end_line":90}]}
+  ],
+  "connections": [
+    {"from":"user","to":"cli","variant":"emphasis"},
+    {"from":"a2aclient","to":"a2aserver"},
+    {"from":"a2aserver","to":"runner","label":"stream turn · context session","variant":"emphasis"},
+    {"from":"cli","to":"runner","label":"direct runner.stream"},
+    {"from":"runner","to":"graph","variant":"emphasis"},
+    {"from":"graph","to":"gemini","label":"intent · route · args · synthesize","fromSide":"top","toSide":"bottom"},
+    {"from":"gemini","to":"graph","label":"validated model outputs","variant":"dashed","fromSide":"right","toSide":"top"},
+    {"from":"graph","to":"registry","label":"context ops"},
+    {"from":"registry","to":"mcp","variant":"emphasis"},
+    {"from":"metacache","to":"registry","label":"catalog + verified context cache","fromSide":"bottom","toSide":"top"},
+    {"from":"mcp","to":"servercache","label":"server checks cache after validation","fromSide":"top","toSide":"right"},
+    {"from":"runner","to":"trace","label":"lifecycle + stage events","fromSide":"bottom","toSide":"top"},
+    {"from":"graph","to":"trace","label":"model/tool events + snapshots","variant":"dashed","fromSide":"bottom","toSide":"right"},
+    {"from":"runner","to":"memory","label":"restore / retain last 10 turns","fromSide":"bottom","toSide":"left"},
+    {"from":"trace","to":"logs","label":"append + flush","fromSide":"right","toSide":"left"},
+    {"from":"runner","to":"answer","label":"completed response","variant":"dashed","fromSide":"right","toSide":"bottom"},
+    {"from":"a2aserver","to":"answer"}
+  ],
+  "cards": [
+    {"dot":"cyan","title":"Turn logic & branches","items":["Intent can end as chat/clarification; tool intent retrieves positive-score BM25 candidates or returns a rephrase request.","Hydrated candidates feed argument generation; eligible names and schemas are validated before sequential MCP calls. No generated calls skips invocation/synthesis.","Successful tool results are validated, then used-tool presentation policies are loaded before answer synthesis."]},
+    {"dot":"emerald","title":"Independent cache ownership","items":["Agent SQLite cache stores discovery, index and verified context metadata; it does not cache business results.","MCP server owns the 300-second successful result cache. Calls still cross HTTP on a hit.","A2A card cache is separate; sessions/history are in memory and disappear on process restart."]},
+    {"dot":"violet","title":"Model visibility & observability","items":["Retrieval metadata/scores stay host-only. The host projects selected schemas/instructions to argument generation and used-tool policies/results to synthesis.","Trace files can contain user text, arguments and results; context JSONL records exact messages and graph snapshots.","A2A serializes work per context and returns answer/context-trace artifacts; cancellation/failure is surfaced through task status."]}
+  ]
+}

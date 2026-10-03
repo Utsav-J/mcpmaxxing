@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "modern-mcp — Server Runtime Deep Dive",
+    "output": ".archify/architecture-mcp-20261003-160526/mcp.html",
+    "quality_profile": "showcase",
+    "repository": {"url":"https://github.com/Utsav-J/mcpmaxxing.git","provider":"github","link_mode":"web","revision":"2773591545392c2fb54bd888969e07920ab6b36e"}
+  },
+  "components": [
+    {"id":"client","type":"external","label":"MCP Host / Client","sublabel":"Streamable HTTP caller","pos":[40,300],"size":[160,64],"sources":[{"path":"README.md","line":14,"end_line":21}]},
+    {"id":"cli","type":"backend","label":"CLI Entrypoint","sublabel":"modern-mcp / python -m","pos":[40,80],"size":[160,64],"sources":[{"path":"src/modern_mcp/__init__.py","line":1,"end_line":4},{"path":"src/modern_mcp/__main__.py","line":1,"end_line":3}]},
+    {"id":"runtime","type":"backend","label":"MCP HTTP Runtime","sublabel":"stateless Streamable HTTP · /mcp","pos":[280,300],"size":[190,70],"sources":[{"path":"src/modern_mcp/server.py","line":353,"end_line":373}]},
+    {"id":"server","type":"backend","label":"BookstoreServer","sublabel":"protocol handlers + registrations","pos":[550,300],"size":[190,70],"sources":[{"path":"src/modern_mcp/server.py","line":91,"end_line":122}]},
+    {"id":"contracts","type":"backend","label":"Tool Contracts","sublabel":"7 names · schemas · typed models","pos":[550,80],"size":[190,64],"sources":[{"path":"src/modern_mcp/contracts.py","line":1,"end_line":67}]},
+    {"id":"handlers","type":"backend","label":"Typed Tool Handlers","sublabel":"validate inputs → delegate operation","pos":[820,300],"size":[190,70],"sources":[{"path":"src/modern_mcp/server.py","line":124,"end_line":237}]},
+    {"id":"bookstore","type":"backend","label":"Bookstore Domain","sublabel":"in-memory filters + aggregates","pos":[1100,300],"size":[190,70],"sources":[{"path":"src/modern_mcp/bookstore.py","line":181,"end_line":366}]},
+    {"id":"fixture","type":"database","label":"Packaged Fixture","sublabel":"books · receipts · sales","pos":[1100,80],"size":[190,64],"sources":[{"path":"src/modern_mcp/bookstore.py","line":34,"end_line":74}]},
+    {"id":"resultcache","type":"backend","label":"Tool Call Cache","sublabel":"normalize/key · validate hit · TTL 300s","pos":[820,520],"size":[190,70],"sources":[{"path":"src/modern_mcp/server.py","line":44,"end_line":90},{"path":"src/modern_mcp/server.py","line":99,"end_line":107}]},
+    {"id":"sqlite","type":"database","label":"SQLite Cache File","sublabel":"artifacts/mcp-cache.sqlite3","pos":[1100,520],"size":[190,64],"sources":[{"path":"src/modern_mcp/result_cache.py","line":1,"end_line":40}]},
+    {"id":"context","type":"backend","label":"Context Loader","sublabel":"validate · canonicalize · hash","pos":[280,80],"size":[190,64],"sources":[{"path":"src/modern_mcp/context_loader.py","line":102,"end_line":138}]},
+    {"id":"resources","type":"backend","label":"Resources + Prompts","sublabel":"reference · fixture · books · context · 2 prompts","pos":[550,520],"size":[210,70],"sources":[{"path":"src/modern_mcp/server.py","line":264,"end_line":352}]}
+  ],
+  "connections": [
+    {"from":"cli","to":"runtime","label":"create + run server","variant":"emphasis"},
+    {"from":"client","to":"runtime","label":"MCP requests / responses","variant":"emphasis"},
+    {"from":"runtime","to":"server"},
+    {"from":"contracts","to":"server","label":"register names + schemas"},
+    {"from":"server","to":"handlers","variant":"emphasis"},
+    {"from":"handlers","to":"bookstore","label":"typed operation"},
+    {"from":"fixture","to":"bookstore","label":"load + index at startup"},
+    {"from":"server","to":"resultcache","label":"normalized args · revision key","fromSide":"bottom","toSide":"top"},
+    {"from":"resultcache","to":"sqlite","label":"read / expire / persist successful result"},
+    {"from":"bookstore","to":"resultcache","label":"cache miss result","variant":"dashed","fromSide":"bottom","toSide":"right"},
+    {"from":"context","to":"server","label":"validated context catalog","fromSide":"right","toSide":"top"},
+    {"from":"server","to":"resources","label":"resources/read · prompts/get","fromSide":"bottom","toSide":"top"},
+    {"from":"resources","to":"client","label":"resource contents / prompt text","variant":"dashed","fromSide":"left","toSide":"bottom"}
+  ],
+  "cards": [
+    {"dot":"cyan","title":"Transport & trust boundary","items":["Server exposes Streamable HTTP only and runs stateless HTTP; host/origin allowlists are configured at startup.","The server has no model or agent dependency; the optional reference host is a separate process."]},
+    {"dot":"emerald","title":"Read-only data path","items":["Packaged fixture is validated and indexed in memory; tools filter and aggregate it without an external database.","Seven handlers return typed structured results. Successful normalized results may be cached locally for 300 seconds."]},
+    {"dot":"violet","title":"Context protocol","items":["Tool _meta advertises retrieval summaries and immutable resource references; the server does not force a host/model to load them.","Resources include validated context documents, bookstore reference, fixture descriptor, and book detail; prompts are optional affordances."]}
+  ]
+}

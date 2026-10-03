@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "6997b75a-33ac-47a4-9fbe-9af9eed2b8fc",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "E:\\Python Stuff\\modern-mcp\\.archify\\architecture-agent-20261003-160526\\agent.json",
+  "output": "E:\\Python Stuff\\modern-mcp\\.archify\\architecture-agent-20261003-160526\\agent.html",
+  "specification": {
+    "sha256": "1a625895a2d129f8dc2a761cd37bf89fbbb6f39bfc6f0d93a4b8d44676c678ce",
+    "bytes": 6812
+  },
+  "artifact": {
+    "sha256": "83af3ffe6d3efdb7b1df1ee69e64c943fc0bf7dd9f3240cd6dfb7506d25110b6",
+    "bytes": 781533
+  }
+}

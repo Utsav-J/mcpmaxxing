@@ -5,6 +5,10 @@ fixtures, or preconfigured tool names. It connects only through MCP HTTP and
 constructs its own registry from the advertised v1 tool-context contract. A2A is
 its outward conversation interface. No deployment files or telemetry services.
 
+## Architecture
+
+- [Agent runtime deep-dive](../../.archify/architecture-agent-20261003-160526/agent.html) — turn orchestration, MCP discovery/calls, Gemini stages, A2A, caches, and traces.
+
 ## From catalog to answer
 
 ```mermaid

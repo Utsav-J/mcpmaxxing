@@ -5,6 +5,10 @@ Standalone read-only bookstore MCP server, served **only over Streamable HTTP** 
 context registry, and uses LangGraph + Gemini to load context in stages. The server
 needs no model API key, agent process, or other MCP server.
 
+## Architecture
+
+- [MCP server runtime deep-dive](.archify/architecture-mcp-20261003-160526/mcp.html) — Streamable HTTP, tool handlers, bookstore data, context resources, and result caching.
+
 ## Run the server
 
 Requires Python 3.14 and uv:
