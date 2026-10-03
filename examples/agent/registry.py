@@ -26,6 +26,22 @@ def digest(value):
     return hashlib.sha256(canonical_json(value).encode()).hexdigest()
 
 
+def tokens(text, normalize=False):
+    result = re.findall(r"[^\W_]+", text.casefold())
+    if not normalize:
+        return result
+    normalized = []
+    for token in result:
+        if len(token) > 4 and token.endswith("ies"):
+            token = token[:-3] + "y"
+        elif len(token) > 4 and token.endswith(("ches", "shes", "xes", "zes", "sses")):
+            token = token[:-2]
+        elif len(token) > 3 and token.endswith("s") and not token.endswith(("ss", "us", "is")):
+            token = token[:-1]
+        normalized.append(token)
+    return normalized
+
+
 class ContextError(ValueError):
     pass
 
@@ -52,11 +68,23 @@ async def listing(method, field):
 
 
 class ToolContextRegistry:
-    def __init__(self, client, server_identity, meta_key=None, cache=None):
+    def __init__(
+        self,
+        client,
+        server_identity,
+        meta_key=None,
+        cache=None,
+        *,
+        embedding_enabled=False,
+        embedding_client=None,
+    ):
         self.client, self.server_identity, self.meta_key = client, server_identity, meta_key
         self.records, self.resources, self._cache = {}, [], {}
         self.snapshot = ""
         self.cache = cache
+        self.embedding_enabled = embedding_enabled
+        self.embedding_client = embedding_client
+        self.tool_embeddings = {}
         self.last_result_meta = {}
 
     async def refresh(self):
@@ -68,6 +96,7 @@ class ToolContextRegistry:
                 saved["references"],
             )
             self.snapshot, self.index = saved["snapshot"], saved["bm25"]
+            self.normalized_index = self._build_index(normalize=True)
             if self.snapshot != digest(
                 {
                     "server": self.server_identity,
@@ -155,6 +184,7 @@ class ToolContextRegistry:
             {"server": self.server_identity, "records": records, "references": references}
         )
         self.index = self._build_index()
+        self.normalized_index = self._build_index(normalize=True)
         if self.cache:
             self.cache.put(
                 "catalog",
@@ -173,6 +203,8 @@ class ToolContextRegistry:
         for name in self.records:
             for category in CATEGORIES.values():
                 await self.load(name, category)
+        if self.embedding_enabled:
+            await self._prepare_tool_embeddings()
 
     async def _resource_text(self, uri):
         result = await self.client.read_resource(uri, cache_mode="bypass")
@@ -183,10 +215,7 @@ class ToolContextRegistry:
             raise ContextError("Missing or oversized context resource.")
         return text
 
-    def _build_index(self):
-        def tokens(text):
-            return re.findall(r"[^\W_]+", text.casefold())
-
+    def _build_index(self, normalize=False):
         counts = {}
         for name, record in self.records.items():
             retrieval = record["context"]["retrieval"]
@@ -198,7 +227,8 @@ class ToolContextRegistry:
                             *retrieval["keywords"],
                             *retrieval["example_queries"],
                         ]
-                    )
+                    ),
+                    normalize=normalize,
                 )
             )
         lengths = {name: sum(counter.values()) for name, counter in counts.items()}
@@ -213,21 +243,22 @@ class ToolContextRegistry:
             "frequency": dict(frequency),
         }
 
-    def retrieve(self, query, k=3):
+    def retrieve(self, query, k=3, *, normalize=False):
         if not self.snapshot or not query.strip() or type(k) is not int or k < 1:
             raise ContextError("Initialize registry, supply a query, and use positive K.")
 
-        counts = self.index["counts"]
+        index = self.normalized_index if normalize else self.index
+        counts = index["counts"]
         lengths, average, frequency = (
-            self.index["lengths"],
-            self.index["average"],
-            self.index["frequency"],
+            index["lengths"],
+            index["average"],
+            index["frequency"],
         )
         ranked = []
         # ponytail: linear BM25 scan; build a persistent index if the catalog grows large.
         for name, counter in counts.items():
             score = 0.0
-            for term in sorted(set(re.findall(r"[^\W_]+", query.casefold()))):
+            for term in sorted(set(tokens(query, normalize=normalize))):
                 tf = counter.get(term, 0)
                 if tf:
                     idf = math.log1p(
@@ -237,6 +268,129 @@ class ToolContextRegistry:
             if score > 0:
                 ranked.append((name, score))
         return sorted(ranked, key=lambda pair: (-pair[1], pair[0]))[:k]
+
+    def _retrieval_document(self, name):
+        retrieval = self.records[name]["context"]["retrieval"]
+        return "\n".join(
+            [
+                f"Tool: {name}",
+                retrieval["summary"],
+                *retrieval["keywords"],
+                *retrieval["example_queries"],
+            ]
+        )
+
+    def _embedding_cache_key(self, name, document):
+        client = self.embedding_client
+        return "tool:" + digest(
+            {
+                "provider": getattr(client, "provider", type(client).__name__),
+                "model": getattr(client, "model", "unknown"),
+                "dimensions": getattr(client, "dimensions", None),
+                "task_type": "RETRIEVAL_DOCUMENT",
+                "tool": name,
+                "document": document,
+            }
+        )
+
+    @staticmethod
+    def _unit_vector(values):
+        if not isinstance(values, list) or not values:
+            raise ContextError("Embedding provider returned an empty vector.")
+        vector = [float(value) for value in values]
+        if any(not math.isfinite(value) for value in vector):
+            raise ContextError("Embedding provider returned a non-finite value.")
+        norm = math.sqrt(sum(value * value for value in vector))
+        if norm == 0:
+            raise ContextError("Embedding provider returned a zero vector.")
+        return [value / norm for value in vector]
+
+    async def _prepare_tool_embeddings(self):
+        if self.embedding_client is None:
+            raise ContextError("Embedding retrieval is enabled without an embedding client.")
+        documents = {name: self._retrieval_document(name) for name in self.records}
+        vectors, missing = {}, []
+        keys = {}
+        for name, document in documents.items():
+            key = self._embedding_cache_key(name, document)
+            keys[name] = key
+            cached = self.cache.get_embedding(key) if self.cache else None
+            if cached is None:
+                missing.append(name)
+            else:
+                vectors[name] = self._unit_vector(cached)
+
+        if missing:
+            raw_vectors = await self.embedding_client.embed(
+                [documents[name] for name in missing], task_type="RETRIEVAL_DOCUMENT"
+            )
+            if len(raw_vectors) != len(missing):
+                raise ContextError("Embedding provider returned a mismatched document count.")
+            for name, raw_vector in zip(missing, raw_vectors, strict=True):
+                vector = self._unit_vector(raw_vector)
+                vectors[name] = vector
+                if self.cache:
+                    self.cache.put_embedding(keys[name], vector)
+
+        dimensions = {len(vector) for vector in vectors.values()}
+        expected_dimensions = getattr(self.embedding_client, "dimensions", None)
+        if len(dimensions) != 1 or (
+            expected_dimensions is not None and dimensions != {expected_dimensions}
+        ):
+            raise ContextError("Embedding vectors have inconsistent dimensions.")
+        self.tool_embeddings = vectors
+
+    async def embed_query(self, query):
+        if not self.embedding_enabled or self.embedding_client is None:
+            raise ContextError("Embedding retrieval is not enabled.")
+        return await self.embedding_client.embed([query], task_type="RETRIEVAL_QUERY")
+
+    def retrieve_with_query_vector(self, query, query_vector, k=3, *, normalize=False):
+        if not self.embedding_enabled or not self.tool_embeddings:
+            raise ContextError("Tool embeddings are not initialized.")
+        if type(k) is not int or k < 1 or not query.strip():
+            raise ContextError("Supply a nonempty query and positive K.")
+        vector = self._unit_vector(query_vector)
+        if len(vector) != len(next(iter(self.tool_embeddings.values()))):
+            raise ContextError("Query and tool embedding dimensions do not match.")
+
+        embedded = sorted(
+            (
+                (name, sum(left * right for left, right in zip(vector, tool_vector, strict=True)))
+                for name, tool_vector in self.tool_embeddings.items()
+            ),
+            key=lambda pair: (-pair[1], pair[0]),
+        )[:k]
+        lexical = self.retrieve(query, k, normalize=normalize)
+        fused = {}
+        for ranked in (lexical, embedded):
+            for position, (name, _) in enumerate(ranked, start=1):
+                fused[name] = fused.get(name, 0.0) + 1 / (60 + position)
+        return sorted(fused.items(), key=lambda pair: (-pair[1], pair[0]))[:k]
+
+    async def retrieve_for_pipeline(self, query, k=3, *, normalize=False):
+        if not self.embedding_enabled:
+            return self.retrieve(query, k, normalize=normalize)
+        response = await self.embed_query(query)
+        if len(response) != 1:
+            raise ContextError("Embedding provider returned a mismatched query count.")
+        return self.retrieve_with_query_vector(query, response[0], k, normalize=normalize)
+
+    async def retrieve_per_intent(self, queries, k=3, *, normalize=False):
+        if type(k) is not int or k < 1:
+            raise ContextError("K must be a positive integer.")
+        selected, seen = [], set()
+        for query in queries:
+            if not query.strip():
+                raise ContextError("Per-intent retrieval queries must not be empty.")
+            if len(selected) == k:
+                break
+            result = await self.retrieve_for_pipeline(query, 1, normalize=normalize)
+            if result and result[0][0] not in seen:
+                name = result[0][0]
+                seen.add(name)
+                selected.append((name, result[0][1]))
+        return selected
 
     def validate_selection(self, candidates, names):
         if len(names) != len(set(names)) or any(name not in candidates for name in names):

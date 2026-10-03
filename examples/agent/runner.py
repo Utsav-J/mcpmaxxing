@@ -1,6 +1,7 @@
 """Run a graph against a remote MCP and yield every observable boundary immediately."""
 
 import asyncio
+import os
 from contextlib import suppress
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -10,6 +11,7 @@ from mcp import Client
 from mcp.types import DiscoverResult
 
 from examples.agent.cache import Cache
+from examples.agent.embeddings import GoogleEmbeddingClient
 from examples.agent.graph import Dependencies, GeminiAdapter, build_graph
 from examples.agent.observability import Trace
 from examples.agent.registry import ToolContextRegistry
@@ -26,6 +28,10 @@ async def stream(
     task_context=None,
     conversation=None,
     session_id=None,
+    embedding_enabled=False,
+    embedding_client=None,
+    per_intent=False,
+    normalize=False,
 ):
     target = urlsplit(url)
     if target.scheme not in {"http", "https"} or not target.hostname:
@@ -81,8 +87,13 @@ async def stream(
             conversation["history"][:] = conversation["history"][-10:]
 
         async def execute():
+            active_embedding_client = embedding_client
+            owns_embedding_client = False
+            state = {"query": query, "k": k, "history": conversation["history"].copy()}
             try:
-                state = {"query": query, "k": k, "history": conversation["history"].copy()}
+                if embedding_enabled and active_embedding_client is None:
+                    active_embedding_client = GoogleEmbeddingClient(os.getenv("GOOGLE_API_KEY", ""))
+                    owns_embedding_client = True
                 observe(
                     {
                         "stage": "initialization_start",
@@ -110,7 +121,13 @@ async def stream(
                                 "result": client.session.discover_result.model_dump(mode="json"),
                             },
                         )
-                    registry = ToolContextRegistry(client, url, cache=cache)
+                    registry = ToolContextRegistry(
+                        client,
+                        url,
+                        cache=cache,
+                        embedding_enabled=embedding_enabled,
+                        embedding_client=active_embedding_client,
+                    )
                     await registry.warm()
                     observe(
                         {
@@ -123,7 +140,13 @@ async def stream(
                             "agent_state": state,
                         }
                     )
-                    context = Dependencies(registry, GeminiAdapter(model, observe), observe)
+                    context = Dependencies(
+                        registry,
+                        GeminiAdapter(model, observe),
+                        observe,
+                        per_intent=per_intent,
+                        normalize=normalize,
+                    )
                     async for update in build_graph().astream(
                         state, context=context, stream_mode="updates"
                     ):
@@ -175,6 +198,9 @@ async def stream(
                     }
                 )
             finally:
+                if owns_embedding_client:
+                    with suppress(Exception):
+                        await active_embedding_client.aclose()
                 events.put_nowait(None)
 
         worker = asyncio.create_task(execute())

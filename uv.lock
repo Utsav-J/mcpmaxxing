@@ -706,6 +706,7 @@ dependencies = [
 [package.optional-dependencies]
 agent = [
     { name = "a2a-sdk", extra = ["http-server"] },
+    { name = "google-genai" },
     { name = "langchain-google-genai" },
     { name = "langgraph" },
     { name = "python-dotenv" },
@@ -724,6 +725,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "a2a-sdk", extras = ["http-server"], marker = "extra == 'agent'", specifier = ">=1,<2" },
+    { name = "google-genai", marker = "extra == 'agent'", specifier = ">=2.25,<3" },
     { name = "jsonschema", specifier = ">=4.25,<5" },
     { name = "langchain-google-genai", marker = "extra == 'agent'", specifier = ">=4,<5" },
     { name = "langgraph", marker = "extra == 'agent'", specifier = "==1.2.12" },

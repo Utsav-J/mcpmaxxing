@@ -18,6 +18,10 @@ class Cache:
                 "CREATE TABLE IF NOT EXISTS entries (namespace TEXT, key TEXT, body TEXT, "
                 "created REAL, PRIMARY KEY(namespace, key))"
             )
+            db.execute(
+                "CREATE TABLE IF NOT EXISTS embeddings (namespace TEXT, key TEXT, body TEXT, "
+                "PRIMARY KEY(namespace, key))"
+            )
             db.commit()
 
     def get(self, key):
@@ -37,6 +41,32 @@ class Cache:
             }
         )
         return json.loads(row[0]) if hit else None
+
+    def get_embedding(self, key):
+        with closing(sqlite3.connect(self.path)) as db:
+            row = db.execute(
+                "SELECT body FROM embeddings WHERE namespace = ? AND key = ?",
+                (self.namespace, key),
+            ).fetchone()
+        hit = row is not None
+        self.observe(
+            {
+                "stage": "embedding_cache",
+                "visibility": "host_only",
+                "key": key,
+                "status": "hit" if hit else "miss",
+                "storage": "durable",
+            }
+        )
+        return json.loads(row[0]) if hit else None
+
+    def put_embedding(self, key, vector):
+        with closing(sqlite3.connect(self.path)) as db:
+            db.execute(
+                "INSERT OR REPLACE INTO embeddings VALUES (?, ?, ?)",
+                (self.namespace, key, json.dumps(vector, separators=(",", ":"))),
+            )
+            db.commit()
 
     def put(self, key, value):
         created = time.time()

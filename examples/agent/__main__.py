@@ -38,6 +38,9 @@ async def run(args, model):
             log_dir=args.log_dir,
             conversation=session,
             session_id=session_id,
+            embedding_enabled=args.embedding_enabled,
+            per_intent=args.per_intent,
+            normalize=args.normalize,
         ):
             if event["visibility"] in {"model_request", "model_response"} or event["stage"] in {
                 "registry_created",
@@ -65,6 +68,17 @@ def main():
     parser.add_argument("--query", help="Single turn; omit for an interactive conversation")
     parser.add_argument("--model", default=os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite"))
     parser.add_argument("-k", type=int, default=3)
+    parser.add_argument(
+        "--embedding-enabled",
+        action="store_true",
+        help="Fuse embedding and BM25 tool rankings with RRF.",
+    )
+    parser.add_argument(
+        "--per-intent", action="store_true", help="Retrieve top-1 per intent, capped by K."
+    )
+    parser.add_argument(
+        "--normalize", action="store_true", help="Normalize English plural BM25 tokens."
+    )
     parser.add_argument("--log-dir", type=Path, default=Path("artifacts/agent"))
     parser.add_argument("--serve", action="store_true", help="Serve the agent through A2A JSON-RPC")
     parser.add_argument("--host", default="127.0.0.1")
@@ -87,6 +101,9 @@ def main():
                 public_url=public_url,
                 k=args.k,
                 log_dir=args.log_dir,
+                embedding_enabled=args.embedding_enabled,
+                per_intent=args.per_intent,
+                normalize=args.normalize,
             ),
             host=args.host,
             port=args.port,
