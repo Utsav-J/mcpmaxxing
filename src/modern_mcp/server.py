@@ -30,6 +30,8 @@ from modern_mcp.models import (
     ReceiptsInput,
     ReceiptsResult,
     SalesInput,
+    SalesRecordsInput,
+    SalesRecordsResult,
     SalesResult,
     StockInput,
     StockResult,
@@ -38,7 +40,7 @@ from modern_mcp.models import (
     VendorResult,
     VendorSummaryInput,
 )
-from modern_mcp.result_cache import TTL, ResultCache
+from modern_mcp.result_cache import ResultCache
 
 
 def error_result(code, message):
@@ -54,6 +56,11 @@ class BookstoreServer(MCPServer):
     overrides enforce our `extra=forbid` contract without patching SDK internals.
     Typed return annotations still let the SDK validate structured outputs.
     """
+
+    def __init__(self, *args, result_cache: ResultCache, cache_revision: str, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.result_cache = result_cache
+        self.cache_revision = cache_revision
 
     async def list_tools(self):
         return [
@@ -80,13 +87,13 @@ class BookstoreServer(MCPServer):
                 }
             )
             cached = self.result_cache.get(key)
-            if cached:
-                data, created = cached
-                CONTRACTS[name].output_model.model_validate(data)
+            if cached is not None:
+                CONTRACTS[name].output_model.model_validate(cached.data)
                 result = CallToolResult(
-                    content=[TextContent(type="text", text=canonical_json(data))],
-                    structured_content=data,
+                    content=[TextContent(type="text", text=canonical_json(cached.data))],
+                    structured_content=cached.data,
                 )
+                created = cached.created
                 status = "hit"
             else:
                 # ponytail: concurrent cold misses may duplicate reads; coalesce if costly.
@@ -101,7 +108,7 @@ class BookstoreServer(MCPServer):
                         **(result.meta or {}),
                         "modern_mcp/cache": {
                             "status": status,
-                            "ttl_seconds": TTL,
+                            "ttl_seconds": self.result_cache.ttl_seconds,
                             "age_seconds": round(time.time() - created, 3),
                         },
                     }
@@ -121,19 +128,7 @@ def create_server(
 ):
     store = store or Bookstore()
     metadata, resources = catalog if catalog is not None else load_context_catalog()
-    server = BookstoreServer(
-        "Bookstore context experiment",
-        version="0.1.0",
-        log_level="WARNING",
-        instructions=(
-            "Read-only demo bookstore. "
-            "Clients resolve tool context references before calling tools."
-        ),
-    )
-    server.result_cache = ResultCache(
-        cache_path or os.getenv("MCP_CACHE_PATH", "artifacts/mcp-cache.sqlite3")
-    )
-    server.cache_revision = digest(
+    cache_revision = digest(
         {
             "cache_format": 1,
             "fixture": store.manifest.sha256,
@@ -146,6 +141,20 @@ def create_server(
                 for name, contract in CONTRACTS.items()
             },
         }
+    )
+
+    server = BookstoreServer(
+        "Bookstore context experiment",
+        version="0.1.0",
+        log_level="WARNING",
+        instructions=(
+            "Read-only demo bookstore. "
+            "Clients resolve tool context references before calling tools."
+        ),
+        result_cache=ResultCache(
+            cache_path or os.getenv("MCP_CACHE_PATH", "artifacts/mcp-cache.sqlite3")
+        ),
+        cache_revision=cache_revision,
     )
 
     def get_books(
@@ -225,6 +234,30 @@ def create_server(
             )
         )
 
+    def get_sales(
+        *,
+        limit: int = 20,
+        cursor: str | None = None,
+        sold_from: IsoDate | None = None,
+        sold_before: IsoDate | None = None,
+        book_ids: BookIds | None = None,
+        genre: Genre | None = None,
+        min_quantity: int | None = None,
+        max_quantity: int | None = None,
+    ) -> SalesRecordsResult:
+        return store.get_sales(
+            SalesRecordsInput(
+                limit=limit,
+                cursor=cursor,
+                sold_from=sold_from,
+                sold_before=sold_before,
+                book_ids=book_ids,
+                genre=genre,
+                min_quantity=min_quantity,
+                max_quantity=max_quantity,
+            )
+        )
+
     def get_sales_trends(
         *,
         sold_from: IsoDate | None = None,
@@ -262,6 +295,7 @@ def create_server(
         get_stock_availability,
         get_vendor_summary,
         get_sales_trends,
+        get_sales,
         compare_vendors,
     ):
         name = tool.__name__
@@ -274,9 +308,12 @@ def create_server(
             structured_output=True,
         )
 
-    def resource_reader(text):
-        return text
-        
+    def resource_reader(value):
+        def read() -> str:
+            return value
+
+        return read
+
     for uri, text in resources.items():
         parts = uri.split("/")
         server.resource(

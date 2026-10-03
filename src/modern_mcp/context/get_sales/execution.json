@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "tool_name": "get_sales",
+  "category": "execution",
+  "body": {
+    "purpose": "List individual sale records enriched with book details and calendar fields.",
+    "when_to_use": [
+      "List individual sale records enriched with book details and calendar fields."
+    ],
+    "when_not_to_use": [
+      "Use get_sales_trends for grouped totals or charts. Revenue and vendor attribution are not available in the fixture."
+    ],
+    "parameter_rules": [
+      {
+        "parameter": "sold_from/sold_before",
+        "rules": [
+          "These are SALE date bounds; both provided or neither; start included, end excluded."
+        ],
+        "examples": [
+          "2026-08-01 to 2026-09-01"
+        ]
+      },
+      {
+        "parameter": "book_ids/genre",
+        "rules": [
+          "Use known book IDs; filters combine with AND; IDs inside the list are OR."
+        ],
+        "examples": [
+          "book_ids=[\"B001\"]",
+          "genre=fiction"
+        ]
+      },
+      {
+        "parameter": "min_quantity/max_quantity",
+        "rules": [
+          "Filter per-sale quantities; minimum must not exceed maximum."
+        ],
+        "examples": [
+          "min_quantity=3, max_quantity=8"
+        ]
+      },
+      {
+        "parameter": "limit/cursor",
+        "rules": [
+          "Page size is 1\u201350; only continue with the returned cursor for the same filters and limit."
+        ],
+        "examples": [
+          "limit=20"
+        ]
+      }
+    ],
+    "preconditions": [
+      "Read bookstore://reference for vendor IDs and fixed clock.",
+      "Use ISO paired dates, known IDs, and no unsupported parameters."
+    ]
+  }
+}

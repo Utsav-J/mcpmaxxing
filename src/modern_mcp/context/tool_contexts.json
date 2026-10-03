@@ -154,6 +154,38 @@
         "file": "get_vendor_summary/presentation.json"
       }
     },
+    "get_sales": {
+      "retrieval": {
+        "summary": "List individual sale records with book details and date-derived fields, optionally filtered by date, book, genre, and quantity.",
+        "keywords": [
+          "sales",
+          "sale",
+          "transactions",
+          "ledger",
+          "records",
+          "individual",
+          "detailed",
+          "rows",
+          "quantity",
+          "weekday",
+          "book"
+        ],
+        "example_queries": [
+          "Show individual sales for August",
+          "List sale records for B001 with quantities",
+          "Find large sales in the science genre"
+        ]
+      },
+      "execution_instructions": {
+        "file": "get_sales/execution.json"
+      },
+      "domain_knowledge": {
+        "file": "get_sales/domain.json"
+      },
+      "presentation_policy": {
+        "file": "get_sales/presentation.json"
+      }
+    },
     "get_sales_trends": {
       "retrieval": {
         "summary": "Summarize sold book units by calendar interval over a sale-date window, optionally filtered by genre.",

@@ -37,7 +37,7 @@ async def test_loopback_streamable_http(tmp_path):
         async with Client(f"http://127.0.0.1:{port}/mcp", read_timeout_seconds=5) as client:
             registry = ToolContextRegistry(client, "http-test")
             await registry.refresh()
-            assert len(registry.records) == 7
+            assert len(registry.records) == 8
             prepared = await registry.hydrate(["compare_vendors"])
             result = await registry.invoke(
                 prepared, "compare_vendors", {"vendor_ids": ["VENDOR-A", "VENDOR-D"]}

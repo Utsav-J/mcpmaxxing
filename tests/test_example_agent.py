@@ -87,7 +87,7 @@ async def test_http_discovery_stage_context_and_markdown(endpoint, tmp_path):
     ]
     assert events[-1]["stage"] == "finished"
     registry = next(event for event in events if event["stage"] == "registry_created")
-    assert len(registry["registry"]) == 7
+    assert len(registry["registry"]) == 8
     requests = [event for event in events if event["visibility"] == "model_request"]
     assert [event["stage"] for event in requests][-2:] == ["arguments", "synthesis"]
     argument = json.loads(requests[-2]["messages"][1]["content"])

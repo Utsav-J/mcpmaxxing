@@ -1,7 +1,7 @@
 # modern-mcp
 
 Standalone read-only bookstore MCP server, served **only over Streamable HTTP** using
-`mcp==2.2.0`. A separate host discovers its seven tools, constructs a private tool
+`mcp==2.2.0`. A separate host discovers its eight tools, constructs a private tool
 context registry, and uses LangGraph + Gemini to load context in stages. The server
 needs no model API key, agent process, or other MCP server.
 
@@ -105,8 +105,9 @@ are supplied as untrusted data rather than policy instructions.
 ## Bookstore contract
 
 Tools: `get_books`, `get_book_details`, `list_stock_receipts`,
-`get_stock_availability`, `get_vendor_summary`, `get_sales_trends`, `compare_vendors`.
-They enforce flat input schemas and typed structured output, read-only annotations,
+`get_stock_availability`, `get_vendor_summary`, `get_sales_trends`, `get_sales`,
+`compare_vendors`. `get_sales` returns individual enriched sale records;
+`get_sales_trends` returns grouped totals. They enforce flat input schemas and typed structured output, read-only annotations,
 stable error codes, default pages of 20 rows (maximum 50), and query/dataset-bound
 cursors. Totals cover the entire matched set. Empty results succeed.
 
@@ -117,9 +118,17 @@ Stock means received minus sold units. Date bounds include the start and exclude
 the end; last month is `[2026-08-01, 2026-09-01)`.
 
 Public resources: `bookstore://reference`, `bookstore://fixtures/bookstore-demo-v1`,
-`bookstore://books/{book_id}`, and 21 immutable execution/domain/presentation JSON
+`bookstore://books/{book_id}`, and 24 immutable execution/domain/presentation JSON
 resources. Optional prompts: `review_imports`, `compare_vendor_supply`.
 Authoring files live in `src/modern_mcp/context/`; startup rejects invalid context.
+
+## Tool-gating evaluation dataset
+
+[`datasets/query_to_answer.csv`](datasets/query_to_answer.csv) contains 40 one-turn prompts
+and fixture-grounded high-level answers; [`datasets/query_to_tool.csv`](datasets/query_to_tool.csv)
+contains the expected tool mapping and arguments. There are 10 queries each at easy,
+medium, hard, and very-complex levels. See [dataset notes](datasets/README.md) and
+`uv run --frozen python scripts/generate_tool_gating_dataset.py` to regenerate.
 
 ## Verify
 

@@ -267,6 +267,86 @@ CONTEXT = {
             "Distinct definitions of units/books/receipts",
         ],
     },
+    "get_sales": {
+        "keywords": [
+            "sales",
+            "sale",
+            "transactions",
+            "ledger",
+            "records",
+            "individual",
+            "detailed",
+            "rows",
+            "quantity",
+            "weekday",
+            "book",
+        ],
+        "queries": [
+            "Show individual sales for August",
+            "List sale records for B001 with quantities",
+            "Find large sales in the science genre",
+        ],
+        "use": "List individual sale records enriched with book details and calendar fields.",
+        "avoid": (
+            "Use get_sales_trends for grouped totals or charts. Revenue and vendor attribution "
+            "are not available in the fixture."
+        ),
+        "parameters": [
+            {
+                "parameter": "sold_from/sold_before",
+                "rules": [
+                    "These are SALE date bounds; both provided or neither; start included, "
+                    "end excluded."
+                ],
+                "examples": ["2026-08-01 to 2026-09-01"],
+            },
+            {
+                "parameter": "book_ids/genre",
+                "rules": [
+                    "Use known book IDs; filters combine with AND; IDs inside the list are OR."
+                ],
+                "examples": ['book_ids=["B001"]', "genre=fiction"],
+            },
+            {
+                "parameter": "min_quantity/max_quantity",
+                "rules": ["Filter per-sale quantities; minimum must not exceed maximum."],
+                "examples": ["min_quantity=3, max_quantity=8"],
+            },
+            {
+                "parameter": "limit/cursor",
+                "rules": [
+                    "Page size is 1–50; only continue with the returned cursor for the same "
+                    "filters and limit."
+                ],
+                "examples": ["limit=20"],
+            },
+        ],
+        "terms": {
+            "sale record": "One fixture event with a sale ID, book ID, sale date, and quantity.",
+            "week_start": "Monday of the ISO-style calendar week containing sold_date.",
+            "month": "Calendar month in YYYY-MM form.",
+        },
+        "rules": [
+            "Each row is one sale record, not an aggregate bucket.",
+            "Rows add title, author, genre, weekday, week_start, and month from local book/date "
+            "data.",
+            "Total units cover all rows matching filters, not only the returned page.",
+        ],
+        "example": (
+            "For an individual ledger use get_sales; for a monthly series use get_sales_trends."
+        ),
+        "format": "table",
+        "formats": [
+            "Present a concise table with date, sale ID, book, and quantity; avoid dumping every "
+            "field unless asked.",
+            "State total matching records/units and whether more pages exist.",
+        ],
+        "facts": [
+            "Inclusive/exclusive date window",
+            "Matched total versus page rows",
+            "Fixture source and limitations",
+        ],
+    },
     "get_sales_trends": {
         "keywords": [
             "sales",

@@ -28,7 +28,11 @@ from modern_mcp.models import (
     ReceiptsResult,
     SalesInput,
     SalesPoint,
+    SalesRecords,
+    SalesRecordsInput,
+    SalesRecordsResult,
     SalesResult,
+    SalesRow,
     SalesTrends,
     StockInput,
     StockResult,
@@ -38,6 +42,7 @@ from modern_mcp.models import (
     VendorSummaryInput,
     VendorTotals,
 )
+
 
 class BookstoreError(ValueError):
     def __init__(self, code: str, message: str):
@@ -328,6 +333,55 @@ class Bookstore:
             },
         )
         return ComparisonResult(data=data, provenance=self.provenance(start, before))
+
+    def get_sales(self, q: SalesRecordsInput) -> SalesRecordsResult:
+        start, before = self.window(q.sold_from, q.sold_before)
+        self._validate_books(q.book_ids)
+        sales = [
+            sale
+            for sale in self.sales
+            if start <= sale.sold_date < before
+            and (q.book_ids is None or sale.book_id in q.book_ids)
+            and (q.genre is None or self.books[sale.book_id].genre == q.genre)
+            and (q.min_quantity is None or sale.quantity >= q.min_quantity)
+            and (q.max_quantity is None or sale.quantity <= q.max_quantity)
+        ]
+        rows = [
+            SalesRow(
+                sale_id=sale.sale_id,
+                book_id=sale.book_id,
+                title=self.books[sale.book_id].title,
+                author=self.books[sale.book_id].author,
+                genre=self.books[sale.book_id].genre,
+                sold_date=sale.sold_date,
+                quantity=sale.quantity,
+                weekday=(
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
+                    "Sunday",
+                )[sale.sold_date.weekday()],
+                week_start=sale.sold_date - timedelta(days=sale.sold_date.weekday()),
+                month=sale.sold_date.strftime("%Y-%m"),
+            )
+            for sale in sales
+        ]
+        filters = AppliedFilters(
+            book_ids=sorted(q.book_ids) if q.book_ids else None,
+            genre=q.genre,
+            sold_from=start,
+            sold_before=before,
+            min_quantity=q.min_quantity,
+            max_quantity=q.max_quantity,
+        )
+        data = SalesRecords(
+            **self._page("get_sales", rows, q, filters),
+            total_sold_units=sum(sale.quantity for sale in sales),
+        )
+        return SalesRecordsResult(data=data, provenance=self.provenance(start, before))
 
     def get_sales_trends(self, q: SalesInput) -> SalesResult:
         start, before = self.window(q.sold_from, q.sold_before)

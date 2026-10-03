@@ -3,6 +3,7 @@
 import pytest
 
 from examples.agent.cache import Cache
+from modern_mcp.result_cache import CacheEntry, ResultCache
 from modern_mcp.server import create_server
 
 pytestmark = pytest.mark.anyio
@@ -14,6 +15,7 @@ async def test_result_cache_restart_defaults_validation_and_expiry(tmp_path, mon
     path = tmp_path / "results.sqlite3"
     first = await create_server(cache_path=path).call_tool("get_books", {})
     assert first.meta["modern_mcp/cache"]["status"] == "miss"
+    assert first.meta["modern_mcp/cache"]["ttl_seconds"] == ResultCache.ttl_seconds
     restarted = create_server(cache_path=path)
     second = await restarted.call_tool("get_books", {"limit": 20})
     assert second.meta["modern_mcp/cache"]["status"] == "hit"
@@ -26,6 +28,20 @@ async def test_result_cache_restart_defaults_validation_and_expiry(tmp_path, mon
     restarted.cache_revision = "changed"
     changed = await restarted.call_tool("get_books", {})
     assert changed.meta["modern_mcp/cache"]["status"] == "miss"
+
+
+def test_result_cache_returns_explicit_entry_for_falsey_data(tmp_path, monkeypatch):
+    clock = [1000.0]
+    monkeypatch.setattr("modern_mcp.result_cache.time.time", lambda: clock[0])
+    cache = ResultCache(tmp_path / "falsey.sqlite3")
+    created = cache.put("empty", {})
+
+    entry = cache.get("empty")
+
+    assert entry == CacheEntry(data={}, created=created)
+    assert entry is not None
+    assert entry.data == {}
+    assert cache.ttl_seconds == 300
 
 
 def test_metadata_cache_persistence_expiry_and_namespace(tmp_path, monkeypatch):

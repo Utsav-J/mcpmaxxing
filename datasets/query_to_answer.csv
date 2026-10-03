@@ -1,0 +1,41 @@
+query_id,difficulty,query,high_level_answer
+E01,easy,List all books in the catalog.,100 books matched the catalog filters.
+E02,easy,"Tell me the title, author, and current stock for B001.",B001 is Fiction Book 001 by Author 01; 17 units remain in the fixture snapshot.
+E03,easy,How many units of B003 are currently available?,B003 has 3 units and is low_stock.
+E04,easy,Show the first page of stock receipts.,Found 300 receipt rows totaling 3411 units across 99 books.
+E05,easy,Summarize vendor A's supply.,Vendor A supplied 865 units in 76 receipt rows.
+E06,easy,Give me monthly sales totals.,"Recorded 687 sold units in 2026-03-01 to 2026-09-27, grouped by month."
+E07,easy,Compare vendors A and B by supply volume.,Vendor A: 865 units; Vendor B: 845 units.
+E08,easy,List individual sale records for B001.,Found 1 matching sale records totaling 3 units; showing 1 on this page.
+E09,easy,List books in the fantasy genre.,17 books matched the catalog filters.
+E10,easy,Which books are out of stock?,2 books match the current stock filters.
+M01,medium,Which fiction books had receipts from vendor B during August 2026?,9 books matched the catalog filters.
+M02,medium,Show B001 receipts from vendor B in August 2026.,Found 1 receipt rows totaling 5 units across 1 books.
+M03,medium,Show low-stock science-fiction books.,0 books match the current stock filters.
+M04,medium,Summarize vendor C's receipts during August 2026.,Vendor C supplied 120 units in 24 receipt rows.
+M05,medium,Give weekly fantasy sales for August 2026.,"Recorded 32 sold units in 2026-08-01 to 2026-09-01, grouped by week."
+M06,medium,List August sale rows in fiction with quantities from 3 through 6.,Found 1 matching sale records totaling 3 units; showing 1 on this page.
+M07,medium,Compare all four vendors' receipt volume for August 2026.,Vendor A: 120 units; Vendor B: 125 units; Vendor C: 120 units; Vendor D: 141 units.
+M08,medium,What are the catalog facts and lifetime stock totals for B100?,B100 is History Book 100 by Author 20; 0 units remain in the fixture snapshot.
+M09,medium,List fantasy books supplied by A or C in August 2026.,0 books matched the catalog filters.
+M10,medium,"Show detailed sales of B003 with at least two units, from March through May 2026.",Found 1 matching sale records totaling 2 units; showing 1 on this page.
+H01,hard,Show B001's current stock and its individual sale records.,B001 has 17 units and is in_stock. Found 1 matching sale records totaling 3 units; showing 1 on this page.
+H02,hard,"Compare vendors A and B for August receipts, and give me their monthly sales trend for August.","Vendor A: 120 units; Vendor B: 125 units. Recorded 195 sold units in 2026-08-01 to 2026-09-01, grouped by month."
+H03,hard,List science books in the catalog and the detailed receipts for science books in August.,16 books matched the catalog filters. Found 17 receipt rows totaling 83 units across 16 books.
+H04,hard,Give me B001's lifetime totals and its August receipt rows.,B001 is Fiction Book 001 by Author 01; 17 units remain in the fixture snapshot. Found 1 receipt rows totaling 5 units across 1 books.
+H05,hard,Show current low-stock fantasy titles and daily fantasy sales for August.,"B003 has 3 units and is low_stock. Recorded 32 sold units in 2026-08-01 to 2026-09-01, grouped by day."
+H06,hard,Summarize vendor D's August supply and compare D with A over that same month.,Vendor D supplied 141 units in 31 receipt rows. Vendor A: 120 units; Vendor D: 141 units.
+H07,hard,Return August sale rows for B004 and weekly history sales for August.,"Found 1 matching sale records totaling 2 units; showing 1 on this page. Recorded 32 sold units in 2026-08-01 to 2026-09-01, grouped by week."
+H08,hard,"Which vendor supplied B003 in August, and how many units of B003 remain now?",Found 0 receipt rows totaling 0 units across 0 books. B003 has 3 units and is low_stock.
+H09,hard,List books imported from vendor A in August and compare A's delivered volume with C's.,24 books matched the catalog filters. Vendor A: 120 units; Vendor C: 120 units.
+H10,hard,Give B002's individual sales and its current stock availability.,Found 1 matching sale records totaling 5 units; showing 1 on this page. B002 has 0 units and is out_of_stock.
+V01,very_complex,"For August 2026, compare vendors A–D by receipt volume, show B001's actual sales rows, and give the whole-store weekly sales trend.","Vendor A: 120 units; Vendor B: 125 units; Vendor C: 120 units; Vendor D: 141 units. Found 1 matching sale records totaling 3 units; showing 1 on this page. Recorded 195 sold units in 2026-08-01 to 2026-09-01, grouped by week."
+V02,very_complex,"Find fantasy books received from A or C in August, list the matching receipt rows, and report current availability for fantasy books.",0 books matched the catalog filters. Found 0 receipt rows totaling 0 units across 0 books. 17 books match the current stock filters.
+V03,very_complex,"For science-fiction sales in August with quantity 3–6, show event rows, then summarize the same dates by day.","Found 0 matching sale records totaling 0 units; showing 0 on this page. Recorded 32 sold units in 2026-08-01 to 2026-09-01, grouped by day."
+V04,very_complex,"Give vendor B's August receipt summary, its August receipt ledger, and compare B with D for the same period.",Vendor B supplied 125 units in 25 receipt rows. Found 25 receipt rows totaling 125 units across 25 books. Vendor B: 125 units; Vendor D: 141 units.
+V05,very_complex,"For B001, report its current stock and August sale records, plus daily fiction sales for August.","B001 has 17 units and is in_stock. Found 1 matching sale records totaling 3 units; showing 1 on this page. Recorded 35 sold units in 2026-08-01 to 2026-09-01, grouped by day."
+V06,very_complex,"List all out-of-stock history books, show March history receipts, and compare vendors A and C by total March receipt volume.",B100 has 0 units and is out_of_stock. Found 16 receipt rows totaling 320 units across 16 books. Vendor A: 490 units; Vendor C: 480 units.
+V07,very_complex,"Compare all vendors' August supply, then list August science sales with at least four units and give monthly science totals.","Vendor A: 120 units; Vendor B: 125 units; Vendor C: 120 units; Vendor D: 141 units. Found 0 matching sale records totaling 0 units; showing 0 on this page. Recorded 32 sold units in 2026-08-01 to 2026-09-01, grouped by month."
+V08,very_complex,"Find books with August receipts from vendor D, check the exact August receipt history for B004, and give B004's lifetime book totals.",30 books matched the catalog filters. Found 1 receipt rows totaling 5 units across 1 books. B004 is History Book 004 by Author 04; 28 units remain in the fixture snapshot.
+V09,very_complex,"For each vendor A and C, compare August receipts; also show the detailed sales rows for fiction books in August whose sale quantity is 2–5.",Vendor A: 120 units; Vendor C: 120 units. Found 17 matching sale records totaling 35 units; showing 17 on this page.
+V10,very_complex,"Show weekly science-fiction sales for the full fixture period, detailed sales records for B002 over that period, and B002's current availability.","Recorded 118 sold units in 2026-03-01 to 2026-09-27, grouped by week. Found 1 matching sale records totaling 5 units; showing 1 on this page. B002 has 0 units and is out_of_stock."

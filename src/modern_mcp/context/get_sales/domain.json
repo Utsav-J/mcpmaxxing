@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "tool_name": "get_sales",
+  "category": "domain",
+  "body": {
+    "terms": {
+      "sale record": "One fixture event with a sale ID, book ID, sale date, and quantity.",
+      "week_start": "Monday of the ISO-style calendar week containing sold_date.",
+      "month": "Calendar month in YYYY-MM form."
+    },
+    "business_rules": [
+      "Each row is one sale record, not an aggregate bucket.",
+      "Rows add title, author, genre, weekday, week_start, and month from local book/date data.",
+      "Total units cover all rows matching filters, not only the returned page."
+    ],
+    "examples": [
+      "For an individual ledger use get_sales; for a monthly series use get_sales_trends."
+    ],
+    "limitations": [
+      "Local dummy fixture, 2026-03-01 through 2026-09-26, Asia/Kolkata."
+    ]
+  }
+}

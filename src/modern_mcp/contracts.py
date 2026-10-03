@@ -1,4 +1,4 @@
-"""The seven public tool identities and business schemas."""
+"""The public tool identities and business schemas."""
 
 from dataclasses import dataclass
 
@@ -56,6 +56,13 @@ CONTRACTS = {
             "window, optionally filtered by genre.",
             m.SalesInput,
             m.SalesResult,
+        ),
+        Contract(
+            "get_sales",
+            "List individual sale records with book details and date-derived fields, "
+            "optionally filtered by date, book, genre, and quantity.",
+            m.SalesRecordsInput,
+            m.SalesRecordsResult,
         ),
         Contract(
             "compare_vendors",

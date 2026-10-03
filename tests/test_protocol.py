@@ -17,6 +17,12 @@ CALLS = {
     "get_stock_availability": {"book_ids": ["B003"]},
     "get_vendor_summary": {"vendor_id": "VENDOR-A"},
     "get_sales_trends": {"interval": "week"},
+    "get_sales": {
+        "limit": 1,
+        "sold_from": "2026-08-01",
+        "sold_before": "2026-09-01",
+        "book_ids": ["B001"],
+    },
     "compare_vendors": {"vendor_ids": ["VENDOR-A", "VENDOR-B"]},
 }
 
@@ -54,6 +60,76 @@ async def test_explicit_tools_forward_filters_and_pagination(name, tmp_path):
         actual = await server.call_tool(name, arguments)
         assert not actual.is_error
         assert actual.structured_content == expected.model_dump(mode="json")
+
+
+async def test_get_sales_exposes_detailed_records_and_paginates(client):
+    tool = next(tool for tool in (await client.list_tools()).tools if tool.name == "get_sales")
+    assert {
+        "sold_from",
+        "sold_before",
+        "book_ids",
+        "genre",
+        "min_quantity",
+        "max_quantity",
+        "limit",
+        "cursor",
+    } <= set(tool.input_schema["properties"])
+    result = await client.call_tool(
+        "get_sales",
+        {"limit": 1, "sold_from": "2026-08-01", "sold_before": "2026-09-01", "book_ids": ["B001"]},
+    )
+    assert not result.is_error
+    data = result.structured_content["data"]
+    assert data["total_count"] == 1
+    assert data["total_sold_units"] == 3
+    assert data["items"] == [
+        {
+            "sale_id": "S0001",
+            "book_id": "B001",
+            "title": "Fiction Book 001",
+            "author": "Author 01",
+            "genre": "fiction",
+            "sold_date": "2026-08-02",
+            "quantity": 3,
+            "weekday": "Sunday",
+            "week_start": "2026-07-27",
+            "month": "2026-08",
+        }
+    ]
+    assert len(data["items"][0]) == 10
+
+
+async def test_get_sales_pagination_is_stable(client):
+    first = await client.call_tool("get_sales", {"limit": 1})
+    assert not first.is_error
+    first_data = first.structured_content["data"]
+    assert first_data["total_count"] == 200
+    assert first_data["next_cursor"]
+    second = await client.call_tool("get_sales", {"limit": 1, "cursor": first_data["next_cursor"]})
+    assert not second.is_error
+    assert (
+        second.structured_content["data"]["items"][0]["sale_id"]
+        != first_data["items"][0]["sale_id"]
+    )
+
+
+async def test_get_sales_applies_quantity_bounds_and_rejects_invalid_cursor(client):
+    result = await client.call_tool(
+        "get_sales", {"limit": 50, "min_quantity": 5, "max_quantity": 6}
+    )
+    assert not result.is_error
+    data = result.structured_content["data"]
+    assert data["total_count"] > 0
+    assert all(5 <= row["quantity"] <= 6 for row in data["items"])
+    assert data["applied_filters"]["min_quantity"] == 5
+    assert data["applied_filters"]["max_quantity"] == 6
+
+    invalid = await client.call_tool("get_sales", {"min_quantity": 7, "max_quantity": 2})
+    assert invalid.is_error
+    assert "INVALID_ARGUMENT" in invalid.content[0].text
+    stale = await client.call_tool("get_sales", {"limit": 2, "cursor": data["next_cursor"]})
+    assert stale.is_error
+    assert "INVALID_CURSOR" in stale.content[0].text
 
 
 async def test_discovery_typed_calls_contexts_and_resources(client):
@@ -130,6 +206,8 @@ async def test_discovery_typed_calls_contexts_and_resources(client):
         ("get_stock_availability", {"as_of": "2026-08-01"}, "INVALID_ARGUMENT"),
         ("compare_vendors", {"vendor_ids": ["VENDOR-A"]}, "INVALID_ARGUMENT"),
         ("get_sales_trends", {"metric": "revenue"}, "INVALID_ARGUMENT"),
+        ("get_sales", {"sold_from": "2026-08-01"}, "INVALID_ARGUMENT"),
+        ("get_sales", {"book_ids": ["B999"]}, "UNKNOWN_ID"),
     ],
 )
 async def test_errors_are_bounded_and_not_success_schema(client, tool, args, code):

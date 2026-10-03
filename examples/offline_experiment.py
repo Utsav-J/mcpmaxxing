@@ -109,7 +109,7 @@ async def experiment():
             "negative_no_match_count": sum(row["no_match"] for row in rows if not row["required"]),
             "retrieval_cases": rows,
             "context_comparisons": comparisons,
-            "all_seven_full_context_baseline": {
+            "all_tools_full_context_baseline": {
                 "loaded_category_documents": registry.loaded_document_count,
                 "total_request_bytes": len(canonical_json(argument).encode())
                 + len(canonical_json(synthesis).encode()),

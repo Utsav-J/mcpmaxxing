@@ -93,6 +93,25 @@ class SalesInput(Input):
     genre: Genre | None = None
 
 
+class SalesRecordsInput(Pagination):
+    sold_from: IsoDate | None = Field(None, description="Inclusive sale date; paired with end.")
+    sold_before: IsoDate | None = Field(None, description="Exclusive sale date; paired with start.")
+    book_ids: BookIds | None = Field(None, description="Known book IDs; OR within this list.")
+    genre: Genre | None = None
+    min_quantity: Annotated[int, Field(strict=True, ge=1)] | None = None
+    max_quantity: Annotated[int, Field(strict=True, ge=1)] | None = None
+
+    @model_validator(mode="after")
+    def quantity_bounds(self) -> Self:
+        if (
+            self.min_quantity is not None
+            and self.max_quantity is not None
+            and self.min_quantity > self.max_quantity
+        ):
+            raise ValueError("min_quantity must not exceed max_quantity.")
+        return self
+
+
 class CompareInput(ReceiptWindow):
     vendor_ids: Annotated[list[VendorId], Field(min_length=2, max_length=4)]
 
@@ -157,6 +176,8 @@ class AppliedFilters(Model):
     sold_before: date | None = None
     stock_status: str | None = None
     interval: Interval | None = None
+    min_quantity: int | None = None
+    max_quantity: int | None = None
 
 
 class Payload(Model):
@@ -236,6 +257,23 @@ class SalesTrends(Payload):
     units: Literal["sold units"] = "sold units"
 
 
+class SalesRow(Model):
+    sale_id: str
+    book_id: BookId
+    title: str
+    author: str
+    genre: Genre
+    sold_date: date
+    quantity: Annotated[int, Field(strict=True, gt=0)]
+    weekday: Literal["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    week_start: date
+    month: str = Field(pattern=r"^\d{4}-(0[1-9]|1[0-2])$")
+
+
+class SalesRecords(Page[SalesRow]):
+    total_sold_units: int
+
+
 class Result[T](Model):
     data: T
     provenance: Provenance
@@ -247,4 +285,5 @@ ReceiptsResult = Result[ReceiptPage]
 StockResult = Result[Page[StockRow]]
 VendorResult = Result[VendorSummary]
 SalesResult = Result[SalesTrends]
+SalesRecordsResult = Result[SalesRecords]
 ComparisonResult = Result[Comparison]
